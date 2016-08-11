@@ -1,8 +1,10 @@
-package nextus.solarsystem;
+package nextus.solarsystem.view;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+
+import nextus.solarsystem.R;
 
 /**
  * Created by leoshin on 15. 6. 18..

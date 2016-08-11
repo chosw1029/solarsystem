@@ -29,6 +29,10 @@ import com.kakao.auth.KakaoSDK;
 import com.kakao.usermgmt.response.model.UserProfile;
 import com.kakao.util.helper.log.Logger;
 
+import nextus.solarsystem.utils.ContentService;
+import rx.Scheduler;
+import rx.schedulers.Schedulers;
+
 /**
  * 이미지를 캐시를 앱 수준에서 관리하기 위한 애플리케이션 객체이다.
  * 로그인 기반 샘플앱에서 사용한다.
@@ -36,10 +40,13 @@ import com.kakao.util.helper.log.Logger;
  * @author MJ
  */
 public class GlobalApplication extends Application {
+
     private static volatile GlobalApplication instance = null;
     private static volatile Activity currentActivity = null;
     private static UserProfile userProfile = null;
     private ImageLoader imageLoader;
+    private ContentService mContentService;
+    private Scheduler defaultSubscribeScheduler;
 
     public static Activity getCurrentActivity() {
         Logger.d("++ currentActivity : " + (currentActivity != null ? currentActivity.getClass().getSimpleName() : ""));
@@ -114,5 +121,29 @@ public class GlobalApplication extends Application {
     public void onTerminate() {
         super.onTerminate();
         instance = null;
+    }
+
+    public ContentService getContentService() {
+        if (mContentService == null) {
+            mContentService = ContentService.Factory.create();
+        }
+        return mContentService;
+    }
+
+    //For setting mocks during testing
+    public void setContentService(ContentService mContentService) {
+        this.mContentService = mContentService;
+    }
+
+    public Scheduler defaultSubscribeScheduler() {
+        if (defaultSubscribeScheduler == null) {
+            defaultSubscribeScheduler = Schedulers.io();
+        }
+        return defaultSubscribeScheduler;
+    }
+
+    //User to change scheduler from tests
+    public void setDefaultSubscribeScheduler(Scheduler scheduler) {
+        this.defaultSubscribeScheduler = scheduler;
     }
 }

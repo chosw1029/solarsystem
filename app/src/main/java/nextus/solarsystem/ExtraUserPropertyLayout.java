@@ -79,7 +79,7 @@ public class ExtraUserPropertyLayout extends FrameLayout {
         return properties;
     }
 
-    void showProperties(final Map<String, String> properties) {
+    public void showProperties(final Map<String, String> properties) {
         final String nameValue = properties.get(NAME_KEY);
         if (nameValue != null)
             name.setText(nameValue);

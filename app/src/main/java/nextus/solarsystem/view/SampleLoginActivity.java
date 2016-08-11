@@ -1,4 +1,4 @@
-package nextus.solarsystem;
+package nextus.solarsystem.view;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,6 +8,8 @@ import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
 import com.kakao.util.exception.KakaoException;
 import com.kakao.util.helper.log.Logger;
+
+import nextus.solarsystem.R;
 
 /**
  * Created by chosw on 2016-08-11.

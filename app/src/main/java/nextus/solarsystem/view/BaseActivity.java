@@ -1,13 +1,17 @@
-package nextus.solarsystem;
+package nextus.solarsystem.view;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 
+import nextus.solarsystem.GlobalApplication;
+import nextus.solarsystem.WaitingDialog;
+
 /**
  * @author leoshin, created at 15. 7. 20..
  */
 public class BaseActivity extends AppCompatActivity {
+
     protected static Activity self;
 
     @Override
@@ -57,4 +61,6 @@ public class BaseActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+
 }

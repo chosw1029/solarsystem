@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nextus.solarsystem;
+package nextus.solarsystem.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,6 +33,11 @@ import com.kakao.usermgmt.response.model.UserProfile;
 import com.kakao.util.helper.log.Logger;
 
 import java.util.Map;
+
+import nextus.solarsystem.ExtraUserPropertyLayout;
+import nextus.solarsystem.GlobalApplication;
+import nextus.solarsystem.KakaoToast;
+import nextus.solarsystem.R;
 
 /**
  * 유효한 세션이 있다는 검증 후
@@ -114,6 +119,7 @@ public class SampleSignupActivity extends BaseActivity {
                 Log.e("UserProfile : " + userProfile, "");
                 Logger.d("UserProfile : " + userProfile);
                 GlobalApplication.getGlobalApplicationContext().setUserProfile(userProfile);
+                showSignup();
                 redirectMainActivity();
             }
 
