@@ -18,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -35,9 +36,9 @@ import java.util.List;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import nextus.solarsystem.ExtraUserPropertyLayout;
+import nextus.solarsystem.kakao.ExtraUserPropertyLayout;
 import nextus.solarsystem.GlobalApplication;
-import nextus.solarsystem.KakaoToast;
+import nextus.solarsystem.kakao.KakaoToast;
 import nextus.solarsystem.R;
 import nextus.solarsystem.adapter.BoardItemAdapter;
 import nextus.solarsystem.databinding.ActivityMainBinding;
@@ -51,6 +52,7 @@ public class MainActivity extends BaseActivity
 
     ActivityMainBinding binding;
     MainViewModel mainViewModel;
+    public View nav_header;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +69,7 @@ public class MainActivity extends BaseActivity
         setUpRecyclerView(binding.appBarMain.contentMain.mainRecyclerView);
 
 
-
-        View nav_header = binding.navView.getHeaderView(0);
+        nav_header = binding.navView.getHeaderView(0);
         userImg = (CircleImageView) nav_header.findViewById(R.id.user_img);
     }
 
@@ -125,10 +126,12 @@ public class MainActivity extends BaseActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        item.setChecked(true);
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
+
 
         } else if (id == R.id.nav_slideshow) {
 
@@ -289,11 +292,9 @@ public class MainActivity extends BaseActivity
                 Log.e("UserProfile : " + userProfile, "");
                 Logger.d("UserProfile : " + userProfile);
                 GlobalApplication.getGlobalApplicationContext().setUserProfile(userProfile);
-
                 Glide.with(getApplicationContext()).load(userProfile.getProfileImagePath()).centerCrop().into(userImg);
+                ((TextView) binding.navView.getHeaderView(0).findViewById(R.id.user_name)).setText(GlobalApplication.getGlobalApplicationContext().getUserProfile().getNickname());
                 //requestUpdateProfile(userProfile);
-
-
             }
 
             @Override
@@ -307,10 +308,9 @@ public class MainActivity extends BaseActivity
     public void onClick(View view) {
         if( view.getId() == binding.appBarMain.fab.getId() )
         {
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
+            //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            startActivity(new Intent(this, CreateContentsActivity.class));
         }
-
     }
 
     @Override

@@ -1,4 +1,4 @@
-package nextus.solarsystem;
+package nextus.solarsystem.kakao;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,6 +8,8 @@ import com.kakao.auth.AuthType;
 import com.kakao.auth.IApplicationConfig;
 import com.kakao.auth.ISessionConfig;
 import com.kakao.auth.KakaoAdapter;
+
+import nextus.solarsystem.GlobalApplication;
 
 /**
  * @author leoshin on 15. 9. 15.

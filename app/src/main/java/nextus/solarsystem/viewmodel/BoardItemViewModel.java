@@ -44,7 +44,7 @@ public class BoardItemViewModel extends BaseObservable implements ViewModel{
     public String getImageCount() { return boardItem.image_count; }
 
     public String getViewCount() {
-        String temp = ""+boardItem.view_count;
+        String temp = "조회수 "+boardItem.view_count;
         return  temp; }
 
     public String getCommentCount() {

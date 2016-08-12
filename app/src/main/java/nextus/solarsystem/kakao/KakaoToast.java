@@ -1,4 +1,4 @@
-package nextus.solarsystem;
+package nextus.solarsystem.kakao;
 
 import android.content.Context;
 import android.view.Gravity;
@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import nextus.solarsystem.R;
 
 
 /**

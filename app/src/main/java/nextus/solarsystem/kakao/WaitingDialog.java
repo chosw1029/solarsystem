@@ -1,4 +1,4 @@
-package nextus.solarsystem;
+package nextus.solarsystem.kakao;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -7,6 +7,8 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.kakao.util.helper.log.Logger;
+
+import nextus.solarsystem.R;
 
 /**
  * @author leoshin, created at 15. 7. 30..

@@ -14,12 +14,12 @@
             android:layout_height="56dp"
             layout="@layout/view_sample_title" />
 
-        <nextus.solarsystem.ProfileLayout
+        <nextus.solarsystem.kakao.ProfileLayout
             android:id="@+id/com_kakao_user_profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        <nextus.solarsystem.ExtraUserPropertyLayout
+        <nextus.solarsystem.kakao.ExtraUserPropertyLayout
             android:id="@+id/extra_user_property"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

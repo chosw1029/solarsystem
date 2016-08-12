@@ -29,6 +29,7 @@ import com.kakao.auth.KakaoSDK;
 import com.kakao.usermgmt.response.model.UserProfile;
 import com.kakao.util.helper.log.Logger;
 
+import nextus.solarsystem.kakao.KakaoSDKAdapter;
 import nextus.solarsystem.utils.ContentService;
 import rx.Scheduler;
 import rx.schedulers.Schedulers;

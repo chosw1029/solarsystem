@@ -11,12 +11,10 @@ import com.bumptech.glide.Glide;
 import java.util.Collections;
 import java.util.List;
 
-import nextus.solarsystem.GlobalApplication;
 import nextus.solarsystem.R;
 import nextus.solarsystem.databinding.BoardItemRecyclerImgBinding;
 import nextus.solarsystem.model.BoardItem;
 import nextus.solarsystem.viewmodel.BoardItemViewModel;
-import nextus.solarsystem.viewmodel.MainViewModel;
 
 /**
  * Created by chosw on 2016-08-11.
@@ -30,6 +28,7 @@ public class BoardItemAdapter extends RecyclerView.Adapter<BoardItemAdapter.Boar
     public BoardItemAdapter(Context context) {
         this.context = context;
         this.boardData = Collections.emptyList();
+
     }
 
     public BoardItemAdapter(List<BoardItem> boardData) {

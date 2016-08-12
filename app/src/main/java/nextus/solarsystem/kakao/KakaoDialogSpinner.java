@@ -1,4 +1,4 @@
-package nextus.solarsystem;
+package nextus.solarsystem.kakao;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import java.util.Arrays;
 import java.util.List;
+
+import nextus.solarsystem.R;
 
 /**
  * @author leo.shin

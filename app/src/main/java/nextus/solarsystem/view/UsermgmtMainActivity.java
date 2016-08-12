@@ -38,9 +38,9 @@ import com.kakao.util.helper.log.Logger;
 
 import java.util.Map;
 
-import nextus.solarsystem.ExtraUserPropertyLayout;
-import nextus.solarsystem.KakaoToast;
-import nextus.solarsystem.ProfileLayout;
+import nextus.solarsystem.kakao.ExtraUserPropertyLayout;
+import nextus.solarsystem.kakao.KakaoToast;
+import nextus.solarsystem.kakao.ProfileLayout;
 import nextus.solarsystem.R;
 
 /**

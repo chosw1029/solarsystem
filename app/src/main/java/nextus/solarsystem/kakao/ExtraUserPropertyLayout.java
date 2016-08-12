@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nextus.solarsystem;
+package nextus.solarsystem.kakao;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -25,6 +25,8 @@ import android.widget.FrameLayout;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import nextus.solarsystem.R;
 
 /**
  * 추가로 받고자 하는 사용자 정보를 나타내는 layout

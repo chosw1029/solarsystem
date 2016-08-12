@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nextus.solarsystem;
+package nextus.solarsystem.kakao;
 
 import android.app.Application;
 import android.content.Context;
@@ -28,6 +28,9 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.MeResponseCallback;
 import com.kakao.usermgmt.response.model.UserProfile;
+
+import nextus.solarsystem.GlobalApplication;
+import nextus.solarsystem.R;
 
 //TODO image upload, back button, cancel button
 /**

@@ -1,4 +1,4 @@
-package nextus.solarsystem;
+package nextus.solarsystem.kakao;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +9,8 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.util.List;
+
+import nextus.solarsystem.R;
 
 /**
  * Created by leoshin on 15. 6. 18..

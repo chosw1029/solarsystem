@@ -7,6 +7,12 @@ import android.os.Parcelable;
  * Created by chosw on 2016-08-11.
  */
 
+
+/**
+ *  Model : Business Logic and  Data
+ *  RecyclerView의 item Layout에 들어갈 Data 설정
+ *
+ */
 public class BoardItem implements Parcelable{
 
     public int board_id;

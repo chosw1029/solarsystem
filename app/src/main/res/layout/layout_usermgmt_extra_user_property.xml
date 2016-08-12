@@ -17,7 +17,7 @@
         android:id="@+id/age"
         style="@style/com_kakao_profile_property_value" />
 
-    <nextus.solarsystem.KakaoDialogSpinner
+    <nextus.solarsystem.kakao.KakaoDialogSpinner
         xmlns:kakao="http://schemas.android.com/apk/res/nextus.solarsystem"
         android:id="@+id/gender"
         android:layout_width="fill_parent"

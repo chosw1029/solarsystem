@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 
 import nextus.solarsystem.GlobalApplication;
-import nextus.solarsystem.WaitingDialog;
+import nextus.solarsystem.kakao.WaitingDialog;
 
 /**
  * @author leoshin, created at 15. 7. 20..

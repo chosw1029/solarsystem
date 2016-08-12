@@ -72,6 +72,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="nextus.solarsystem.view.MainActivity" />
         </activity>
+        <activity android:name=".view.CreateContentsActivity"
+            android:theme="@style/Theme.AppCompat.Light.Dialog"></activity>
     </application>
+
 
 </manifest>
