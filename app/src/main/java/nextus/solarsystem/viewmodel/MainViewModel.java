@@ -36,7 +36,7 @@ public class MainViewModel implements ViewModel {
         void onClick(View view);
     }
 */
-    private void loadBoardData()
+    public void loadBoardData()
     {
         if (subscription != null && !subscription.isUnsubscribed()) subscription.unsubscribe();
 

@@ -10,10 +10,14 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import nextus.solarsystem.GlobalApplication;
 import nextus.solarsystem.model.CreateContents;
 
@@ -53,6 +57,11 @@ public class CreateContentsViewModel extends BaseObservable implements ViewModel
         createContents = new CreateContents();
         createContents.setUser_name(GlobalApplication.getGlobalApplicationContext().getUserProfile().getNickname());
         createContents.setUser_thumnail(GlobalApplication.getGlobalApplicationContext().getUserProfile().getThumbnailImagePath());
+    }
+
+    public void setImage(CircleImageView view)
+    {
+        Glide.with(this.context).load(createContents.getUser_thumnail()).diskCacheStrategy(DiskCacheStrategy.RESULT).into(view);
     }
 
     public TextWatcher watcher = new TextWatcher() {

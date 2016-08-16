@@ -31,6 +31,7 @@ import java.util.List;
 import nextus.solarsystem.R;
 import nextus.solarsystem.adapter.ImageListAdapter;
 import nextus.solarsystem.databinding.ActivityCreateContentsBinding;
+import nextus.solarsystem.utils.BitmapOrientation;
 import nextus.solarsystem.utils.ContentService;
 import nextus.solarsystem.viewmodel.CreateContentsViewModel;
 import okhttp3.MediaType;
@@ -63,6 +64,7 @@ public class CreateContentsActivity extends Activity implements CreateContentsVi
         binding = DataBindingUtil.setContentView(this, R.layout.activity_create_contents);
         createContentsViewModel = new CreateContentsViewModel(this, this);
         binding.setViewModel(createContentsViewModel);
+        binding.getViewModel().setImage(binding.userThumnail);
         setUpDisplay();
         setUpRecyclerView(binding.imageList);
 
@@ -90,17 +92,24 @@ public class CreateContentsActivity extends Activity implements CreateContentsVi
     @Override
     public void openGallery(View view) {
         //Snackbar.make(view, "TEST", Snackbar.LENGTH_SHORT).setAction("Action", null).show();
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+       // Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
+       // getIntent.setType("image/*");
+
+        Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        pickIntent.setType("image/*");
+
+     //   Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
+     //   chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});
+
+        startActivityForResult(pickIntent, PICK_IMAGE_REQUEST);
+
     }
 
     @Override
     public void onClick(View view) {
         switch(view.getId())
         {
-            case R.id.added_image:
+            case R.id.cancel_button:
                 int position = (int) view.getTag();
                 ImageListAdapter adapter = (ImageListAdapter) binding.imageList.getAdapter();
                 adapter.getImageList().remove(position);
@@ -120,13 +129,20 @@ public class CreateContentsActivity extends Activity implements CreateContentsVi
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             filePath = data.getData();
+            String test = data.getData().toString();
+
+            String path = filePath.getPath();
             file = new File(filePath.getPath());
+
+            Log.e("AbsolutePath",""+test);
             fileName.add(file.getName());
             try {
                 AssetFileDescriptor afd = getContentResolver().openAssetFileDescriptor(filePath, "r");
                 BitmapFactory.Options opt = new BitmapFactory.Options();
                 opt.inSampleSize = 4;
-                Bitmap bitmap = BitmapFactory.decodeFileDescriptor(afd.getFileDescriptor(), null, opt);
+                Bitmap bitmap2 = BitmapFactory.decodeFileDescriptor(afd.getFileDescriptor(), null, opt);
+                Bitmap bitmap = BitmapOrientation.rotateBitmap(getApplicationContext(), filePath, test, bitmap2);
+                //bitmap2.recycle();
 
                 //Getting the Bitmap from Gallery
                 //bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
@@ -137,11 +153,15 @@ public class CreateContentsActivity extends Activity implements CreateContentsVi
                 binding.getViewModel().setImageList(addedImg);
                 //adapter.notifyDataSetChanged();
 
+                afd.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
         }
     }
+
+
 
     @Override
     public void onImageListChanged(List<Bitmap> imageList) {
@@ -173,13 +193,13 @@ public class CreateContentsActivity extends Activity implements CreateContentsVi
         MultipartBody.Part body = prepareFilePart("photo");
 
         RequestBody description = createPartFromString("hello, this is description speaking");
-        RequestBody place = createPartFromString("Magdeburg");
+        RequestBody date = createPartFromString("Magdeburg");
         RequestBody userName = createPartFromString(binding.getViewModel().createContents.user_name);
 
         HashMap<String, RequestBody> map = new HashMap<>();
         map.put("description", description);
-        map.put("place", place);
-        map.put("time", userName);
+        map.put("date", date);
+        map.put("userName", userName);
 
 
         // finally, execute the request
@@ -234,6 +254,6 @@ public class CreateContentsActivity extends Activity implements CreateContentsVi
                 RequestBody.create(MediaType.parse(MULTIPART_FORM_DATA), getByteImage(addedImg.get(0)));
 
         // MultipartBody.Part is used to send also the actual file name
-        return MultipartBody.Part.createFormData(partName, file.getName(), requestFile);
+        return MultipartBody.Part.createFormData(partName, ""+file.getName()+".png", requestFile);
     }
 }

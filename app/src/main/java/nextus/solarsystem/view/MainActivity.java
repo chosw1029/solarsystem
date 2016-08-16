@@ -90,6 +90,13 @@ public class MainActivity extends BaseActivity
     }
 
     @Override
+    public void onResume()
+    {
+        super.onResume();
+        binding.getViewModel().loadBoardData();
+    }
+
+    @Override
     public void onBackPressed() {
         if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             binding.drawerLayout.closeDrawer(GravityCompat.START);
