@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
@@ -14,72 +15,79 @@
         android:layout_height="match_parent"
         tools:context="nextus.solarsystem.view.CreateContentsActivity">
 
-        <LinearLayout
-            android:orientation="vertical"
+        <ScrollView
+            android:layout_marginBottom="50dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_margin="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="34dp"
-                    android:layout_height="34dp"
-                    android:src="@drawable/thumb_talk"
-                    android:id="@+id/user_thumnail" />
-
-                <TextView
-                    android:text="@{viewModel.createContents.user_name}"
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/user_name"
-                    android:layout_marginLeft="8dp" />
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <Button
-                        android:text="글쓰기"
-                        android:layout_width="64dp"
-                        android:layout_height="34dp"
-                        android:id="@+id/button"
-                        android:layout_gravity="right"/>
-
-                </FrameLayout>
-
-
-            </LinearLayout>
-
+            android:layout_height="wrap_content">
             <LinearLayout
                 android:orientation="vertical"
-                android:layout_margin="8dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
-                <EditText
-                    android:id="@+id/edit_text"
-                    android:background="@null"
-                    android:hint="내용을 입력하세요"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:addTextChangedListener="@{viewModel.watcher}"
-                    />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/imageList"
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_margin="8dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                </android.support.v7.widget.RecyclerView>
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="34dp"
+                        android:layout_height="34dp"
+                        android:src="@drawable/thumb_talk"
+                        android:id="@+id/user_thumnail" />
+
+                    <TextView
+                        android:text="@{viewModel.createContents.user_name}"
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/user_name"
+                        android:layout_marginLeft="8dp" />
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <com.beardedhen.androidbootstrap.BootstrapButton
+                            android:layout_width="64dp"
+                            android:layout_height="34dp"
+                            android:id="@+id/upload_button"
+                            android:layout_gravity="right"
+                            android:onClick="onClick"
+                            app:bootstrapText="@string/write_button"
+                            app:bootstrapBrand="success"
+                            app:buttonMode="regular"
+                            app:roundedCorners="true"/>
+                    </FrameLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_margin="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/edit_text"
+                        android:background="@null"
+                        android:hint="내용을 입력하세요"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:addTextChangedListener="@{viewModel.watcher}"
+                        />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/imageList"
+                        android:layout_marginTop="50dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    </android.support.v7.widget.RecyclerView>
+
+                </LinearLayout>
 
             </LinearLayout>
+        </ScrollView>
 
-        </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"

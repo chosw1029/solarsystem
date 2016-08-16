@@ -3,11 +3,15 @@ package nextus.solarsystem.viewmodel;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.ObservableField;
+import android.graphics.Bitmap;
+import android.support.design.widget.Snackbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import nextus.solarsystem.GlobalApplication;
@@ -22,12 +26,27 @@ public class CreateContentsViewModel extends BaseObservable implements ViewModel
     public Context context;
     public CreateContents createContents;
     public ObservableField<String> text = new ObservableField<>();
+    public List<Bitmap> addedImage;
+    public EventListener listener;
+    public ArrayList<Bitmap> imageList;
 
-    public CreateContentsViewModel(Context context)
+    public CreateContentsViewModel(Context context, EventListener listener)
     {
         this.context = context;
+        this.listener = listener;
         setData();
     }
+
+    public void setAddedImage(List<Bitmap> addedImage)
+    {
+        this.addedImage = addedImage;
+    }
+
+    public void setImageList(ArrayList<Bitmap> imageList)
+    {
+        listener.onImageListChanged(imageList);
+    }
+
 
     public void setData()
     {
@@ -57,13 +76,17 @@ public class CreateContentsViewModel extends BaseObservable implements ViewModel
         }
     };
 
-    public interface openGalleryListener
+
+    public interface EventListener
     {
+        void onImageListChanged(List<Bitmap> imageList);
         void openGallery(View view);
+        void onClick(View view);
     }
 
     @Override
     public void destroy() {
-
+        this.context = null;
+        this.listener = null;
     }
 }

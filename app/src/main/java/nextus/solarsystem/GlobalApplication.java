@@ -25,6 +25,7 @@ import android.support.v4.util.LruCache;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
+import com.beardedhen.androidbootstrap.TypefaceProvider;
 import com.kakao.auth.KakaoSDK;
 import com.kakao.usermgmt.response.model.UserProfile;
 import com.kakao.util.helper.log.Logger;
@@ -86,6 +87,7 @@ public class GlobalApplication extends Application {
         super.onCreate();
         instance = this;
 
+        TypefaceProvider.registerDefaultIconSets();
         KakaoSDK.init(new KakaoSDKAdapter());
 
         final RequestQueue requestQueue = Volley.newRequestQueue(this);

@@ -28,7 +28,6 @@ public class BoardItemAdapter extends RecyclerView.Adapter<BoardItemAdapter.Boar
     public BoardItemAdapter(Context context) {
         this.context = context;
         this.boardData = Collections.emptyList();
-
     }
 
     public BoardItemAdapter(List<BoardItem> boardData) {
