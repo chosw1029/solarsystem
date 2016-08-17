@@ -2,7 +2,12 @@ package nextus.solarsystem.viewmodel;
 
 import android.content.Context;
 import android.databinding.BaseObservable;
+import android.util.Log;
 import android.view.View;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import nextus.solarsystem.model.BoardItem;
 
@@ -40,7 +45,54 @@ public class BoardItemViewModel extends BaseObservable implements ViewModel{
     public int getBoardID() { return boardItem.board_id; }
     public String getBoardTitle() { return boardItem.board_title; }
     public String getBoardInfo() { return boardItem.board_info; }
-    public String getDate() { return boardItem.date; }
+    public String getDate()
+    {
+        String date_string = boardItem.date;
+        String date = "";
+
+        Log.e("DATE_STRING",date_string);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.KOREA);
+
+        Date current = new Date(System.currentTimeMillis());
+
+
+        try{
+            Date d = format.parse(date_string) ;
+            long time_long = current.getTime() - d.getTime();
+            int time = (int)time_long/1000;
+
+            Log.e("Time", ""+time);
+            if( time < 60 )
+            {
+                date = "방금";
+                //boardData.get(position).date = "방금";
+                //holder.binding.date.setText("방금");
+            }
+            else if( time >=60 && time < 3600 )
+            {
+                time = time/60;
+                date = ""+time+"분 전";
+                //boardData.get(position).date = ""+time+"분 전";
+                //notifyDataSetChanged();
+                //holder.binding.date.setText(""+time+"분 전");
+            }
+            else if( time >=3600 && time < 86400 )
+            {
+                time = time/3600;
+                date = ""+time+"시간 전";
+              //  holder.binding.date.setText(""+time+"시간 전");
+            }
+            else
+            {
+                date = date_string;
+                //holder.binding.date.setText(date_string);
+            }
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return date;
+    }
     public String getImageCount() { return boardItem.image_count; }
 
     public String getViewCount() {

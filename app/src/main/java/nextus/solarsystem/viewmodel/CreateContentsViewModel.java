@@ -80,7 +80,8 @@ public class CreateContentsViewModel extends BaseObservable implements ViewModel
             if (!Objects.equals(text.get(), editable.toString())) {
                 text.set(editable.toString());
                 createContents.edit_text = editable.toString();
-                Log.e("Changed","-------------------------------------");
+                Log.e("Changed","-------------------------------------"+editable.toString());
+
             }
         }
     };

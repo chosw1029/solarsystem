@@ -24,7 +24,9 @@ import org.apache.commons.io.FileUtils;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -190,14 +192,20 @@ public class CreateContentsActivity extends Activity implements CreateContentsVi
                 RequestBody.create(
                         MediaType.parse("multipart/form-data"), userName);
 */
-        MultipartBody.Part body = prepareFilePart("photo");
+        MultipartBody.Part body;
+        if( addedImg.size() > 0)
+        {
+            body = prepareFilePart("photo");
+        }
+        else
+            body = null;
 
-        RequestBody description = createPartFromString("hello, this is description speaking");
-        RequestBody date = createPartFromString("Magdeburg");
+        RequestBody text = createPartFromString(binding.getViewModel().createContents.edit_text);
+        RequestBody date = createPartFromString(new SimpleDateFormat("yyyy/MM/dd HH:mm").format(new Date(System.currentTimeMillis())));
         RequestBody userName = createPartFromString(binding.getViewModel().createContents.user_name);
 
         HashMap<String, RequestBody> map = new HashMap<>();
-        map.put("description", description);
+        map.put("text", text);
         map.put("date", date);
         map.put("userName", userName);
 

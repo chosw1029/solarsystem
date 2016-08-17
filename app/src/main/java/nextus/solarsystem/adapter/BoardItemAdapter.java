@@ -3,14 +3,18 @@ package nextus.solarsystem.adapter;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import nextus.solarsystem.R;
 import nextus.solarsystem.databinding.BoardItemRecyclerImgBinding;
@@ -53,10 +57,11 @@ public class BoardItemAdapter extends RecyclerView.Adapter<BoardItemAdapter.Boar
     public void onBindViewHolder(BoardItemViewHolder holder, int position) {
         holder.bindItem(boardData.get(position));
         Glide.with(this.context).load(boardData.get(position).board_img).thumbnail(0.1f).centerCrop().into(holder.binding.boardImg);
-
+        holder.binding.date.setText("position :"+position);
 
         //holder.binding.userId.setText(GlobalApplication.getGlobalApplicationContext().getUserProfile().getNickname());
        // holder.binding.userIcon
+
     }
 
     @Override
