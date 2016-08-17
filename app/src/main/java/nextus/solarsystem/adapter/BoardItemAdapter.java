@@ -57,7 +57,6 @@ public class BoardItemAdapter extends RecyclerView.Adapter<BoardItemAdapter.Boar
     public void onBindViewHolder(BoardItemViewHolder holder, int position) {
         holder.bindItem(boardData.get(position));
         Glide.with(this.context).load(boardData.get(position).board_img).thumbnail(0.1f).centerCrop().into(holder.binding.boardImg);
-        holder.binding.date.setText("position :"+position);
 
         //holder.binding.userId.setText(GlobalApplication.getGlobalApplicationContext().getUserProfile().getNickname());
        // holder.binding.userIcon

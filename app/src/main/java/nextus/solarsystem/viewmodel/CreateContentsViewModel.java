@@ -32,7 +32,6 @@ public class CreateContentsViewModel extends BaseObservable implements ViewModel
     public ObservableField<String> text = new ObservableField<>();
     public List<Bitmap> addedImage;
     public EventListener listener;
-    public ArrayList<Bitmap> imageList;
 
     public CreateContentsViewModel(Context context, EventListener listener)
     {
@@ -81,7 +80,6 @@ public class CreateContentsViewModel extends BaseObservable implements ViewModel
                 text.set(editable.toString());
                 createContents.edit_text = editable.toString();
                 Log.e("Changed","-------------------------------------"+editable.toString());
-
             }
         }
     };
@@ -98,5 +96,9 @@ public class CreateContentsViewModel extends BaseObservable implements ViewModel
     public void destroy() {
         this.context = null;
         this.listener = null;
+        this.createContents = null;
+        if(addedImage != null)
+            this.addedImage.clear();
+        this.addedImage = null;
     }
 }

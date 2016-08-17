@@ -2,6 +2,7 @@ package nextus.solarsystem.view;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.kakao.auth.ISessionCallback;
@@ -64,8 +65,21 @@ public class SampleLoginActivity extends Activity {
     }
 
     protected void redirectSignupActivity() {
-        final Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        finish();
+        SharedPreferences prefs = getSharedPreferences("Access", MODE_PRIVATE);
+        //SharedPreferences.Editor editor = prefs.edit();
+
+        if(!prefs.getBoolean("Access",false))
+        {
+            final Intent intent = new Intent(this, PasswordActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        else
+        {
+            final Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
     }
 }

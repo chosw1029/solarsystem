@@ -1,13 +1,17 @@
 package nextus.solarsystem.view;
 
+import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -35,6 +39,7 @@ import nextus.solarsystem.adapter.ImageListAdapter;
 import nextus.solarsystem.databinding.ActivityCreateContentsBinding;
 import nextus.solarsystem.utils.BitmapOrientation;
 import nextus.solarsystem.utils.ContentService;
+import nextus.solarsystem.utils.FilePath;
 import nextus.solarsystem.viewmodel.CreateContentsViewModel;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -52,12 +57,16 @@ public class CreateContentsActivity extends Activity implements CreateContentsVi
     private CreateContentsViewModel createContentsViewModel;
 
     private int PICK_IMAGE_REQUEST = 1;
+    final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
 
     private ArrayList<Bitmap> addedImg = new ArrayList<>();
     private ArrayList<String> fileName = new ArrayList<>();
-    Bitmap bitmap;
+
+    ProgressDialog mProgressDialog;
     Uri filePath;
     File file;
+
+    public String selectedFilePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,18 +102,17 @@ public class CreateContentsActivity extends Activity implements CreateContentsVi
 
     @Override
     public void openGallery(View view) {
-        //Snackbar.make(view, "TEST", Snackbar.LENGTH_SHORT).setAction("Action", null).show();
-       // Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
-       // getIntent.setType("image/*");
 
-        Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        pickIntent.setType("image/*");
-
-     //   Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
-     //   chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});
-
-        startActivityForResult(pickIntent, PICK_IMAGE_REQUEST);
-
+        if(Build.VERSION.SDK_INT > 22 )
+        {
+            requestPermissions((new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}), REQUEST_CODE_ASK_PERMISSIONS);
+        }
+        else
+        {
+            Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            pickIntent.setType("image/*");
+            startActivityForResult(pickIntent, PICK_IMAGE_REQUEST);
+        }
     }
 
     @Override
@@ -117,9 +125,9 @@ public class CreateContentsActivity extends Activity implements CreateContentsVi
                 adapter.getImageList().remove(position);
                 adapter.notifyDataSetChanged();
                 break;
-
             case R.id.upload_button:
-                uploadFile();
+                showProgressDialog();
+                uploadFile(view);
                 break;
         }
 
@@ -131,9 +139,10 @@ public class CreateContentsActivity extends Activity implements CreateContentsVi
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             filePath = data.getData();
+            selectedFilePath = FilePath.getPath(this, filePath);
+
             String test = data.getData().toString();
 
-            String path = filePath.getPath();
             file = new File(filePath.getPath());
 
             Log.e("AbsolutePath",""+test);
@@ -172,7 +181,7 @@ public class CreateContentsActivity extends Activity implements CreateContentsVi
         adapter.notifyDataSetChanged();
     }
 
-    private void uploadFile() {
+    private void uploadFile(final View view) {
         // https://github.com/iPaulPro/aFileChooser/blob/master/aFileChooser/src/com/ipaulpro/afilechooser/utils/FileUtils.java
         // use the FileUtils to get the actual file by uri
         //File test = FileUtils.getFile(file, filePath);
@@ -192,22 +201,25 @@ public class CreateContentsActivity extends Activity implements CreateContentsVi
                 RequestBody.create(
                         MediaType.parse("multipart/form-data"), userName);
 */
+        RequestBody text = createPartFromString(binding.getViewModel().createContents.edit_text);
+        RequestBody date = createPartFromString(new SimpleDateFormat("yyyy/MM/dd HH:mm").format(new Date(System.currentTimeMillis())));
+        RequestBody userName = createPartFromString(binding.getViewModel().createContents.user_name);
+        RequestBody count = createPartFromString(""+addedImg.size());
+
+
         MultipartBody.Part body;
         if( addedImg.size() > 0)
         {
             body = prepareFilePart("photo");
         }
         else
-            body = null;
-
-        RequestBody text = createPartFromString(binding.getViewModel().createContents.edit_text);
-        RequestBody date = createPartFromString(new SimpleDateFormat("yyyy/MM/dd HH:mm").format(new Date(System.currentTimeMillis())));
-        RequestBody userName = createPartFromString(binding.getViewModel().createContents.user_name);
+            body = MultipartBody.Part.createFormData("","");
 
         HashMap<String, RequestBody> map = new HashMap<>();
         map.put("text", text);
         map.put("date", date);
         map.put("userName", userName);
+        map.put("count", count);
 
 
         // finally, execute the request
@@ -216,7 +228,9 @@ public class CreateContentsActivity extends Activity implements CreateContentsVi
             @Override
             public void onResponse(Call<ResponseBody> call,
                                    Response<ResponseBody> response) {
-                Log.v("Upload", "success :"+response);
+                //Snackbar.make(view, "업로드가 완료되었습니다.", Snackbar.LENGTH_SHORT).show();
+                hideProgressDialog();
+                finish();
             }
 
             @Override
@@ -231,7 +245,7 @@ public class CreateContentsActivity extends Activity implements CreateContentsVi
         try
         {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bmp.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
             byte[] imageBytes = baos.toByteArray();
             baos.close();
             bmp.recycle();
@@ -258,10 +272,62 @@ public class CreateContentsActivity extends Activity implements CreateContentsVi
         //File file = FileUtils.getFile(this, fileUri);
 
         // create RequestBody instance from file
-        RequestBody requestFile =
-                RequestBody.create(MediaType.parse(MULTIPART_FORM_DATA), getByteImage(addedImg.get(0)));
+        //RequestBody requestFile = RequestBody.create(MediaType.parse(MULTIPART_FORM_DATA), getByteImage(addedImg.get(0)));
 
+        RequestBody requestFile = RequestBody.create(MediaType.parse(MULTIPART_FORM_DATA), new File(selectedFilePath));
         // MultipartBody.Part is used to send also the actual file name
         return MultipartBody.Part.createFormData(partName, ""+file.getName()+".png", requestFile);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE_ASK_PERMISSIONS: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    pickIntent.setType("image/*");
+                    startActivityForResult(pickIntent, PICK_IMAGE_REQUEST);
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
+
+    private void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage("Loading");
+            mProgressDialog.setIndeterminate(true);
+        }
+        mProgressDialog.show();
+    }
+
+    private void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.hide();
+        }
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+        binding.getViewModel().destroy();
+        addedImg.clear();
+        addedImg = null;
+        binding = null;
     }
 }

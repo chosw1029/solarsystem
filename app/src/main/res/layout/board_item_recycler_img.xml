@@ -1,89 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="viewModel"
             type="nextus.solarsystem.viewmodel.BoardItemViewModel"/>
     </data>
-    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    <android.support.v7.widget.CardView
         android:id="@+id/placeCard"
-        android:layout_margin="3dp"
+        android:layout_marginTop="24dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:foreground="?android:attr/selectableItemBackground"
         card_view:cardCornerRadius="5dp"
         card_view:cardElevation="@dimen/cardview_default_elevation">
+
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <ImageView
-                android:id="@+id/board_img"
-                android:src="@null"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
             <LinearLayout
                 android:layout_margin="8dp"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:textSize="12dp"
-                    android:textColor="#000000"
-                    android:id="@+id/board_title"
-                    android:text="@{viewModel.boardTitle}"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-                <LinearLayout
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="10dp">
-                    <TextView
-                        android:id="@+id/view_count"
-                        android:gravity="center"
-                        android:textSize="8dp"
-                        android:textColor="@color/colorAccent"
-                        android:text="@{viewModel.viewCount}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent" />
-                    <View
-                        android:layout_marginLeft="3dp"
-                        android:layout_marginRight="3dp"
-                        android:background="#424242"
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"/>
-                    <TextView
-                        android:id="@+id/comment_count"
-                        android:gravity="center"
-                        android:textSize="8dp"
-                        android:text="@{viewModel.commentCount}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent" />
-                    <View
-                        android:layout_marginLeft="3dp"
-                        android:layout_marginRight="3dp"
-                        android:background="#424242"
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"/>
-                    <TextView
-                        android:id="@+id/like_count"
-                        android:gravity="center"
-                        android:textSize="8dp"
-                        android:text="@{viewModel.likeCount}"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <View
-                android:background="#E0E0E0"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"/>
-
-            <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="40dp">
@@ -95,12 +33,13 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp" />
                 <LinearLayout
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="12dp"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
                     <TextView
                         android:id="@+id/user_id"
+                        android:textSize="13dp"
                         android:text="@{viewModel.userName}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
@@ -112,6 +51,142 @@
                         android:layout_height="wrap_content" />
 
                 </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_margin="8dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textSize="13dp"
+                    android:id="@+id/board_title"
+                    android:text="@{viewModel.boardTitle}"
+                    android:maxLines="3"
+                    android:ellipsize="end"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/board_img"
+                android:src="@null"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="20dp">
+                <TextView
+                    android:id="@+id/view_count"
+                    android:gravity="center"
+                    android:textSize="10dp"
+                    android:textColor="@color/colorAccent"
+                    android:text="@{viewModel.viewCount}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+
+                <TextView
+                    android:id="@+id/like_count"
+                    android:layout_marginLeft="8dp"
+                    android:gravity="center"
+                    android:textSize="10dp"
+                    android:text="@{viewModel.likeCount}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+
+                <TextView
+                    android:id="@+id/comment_count"
+                    android:gravity="right|center_vertical"
+                    android:textSize="10dp"
+                    android:text="@{viewModel.commentCount}"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+            <View
+                android:background="#CFD8DC"
+                android:layout_margin="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="8dp"
+                android:layout_height="20dp">
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{viewModel::onClick}"
+                    android:layout_height="match_parent">
+                    <com.beardedhen.androidbootstrap.AwesomeTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15dp"
+                        android:layout_marginRight="8dp"
+                        android:textStyle="bold"
+                        card_view:fontAwesomeIcon="fa_thumbs_o_up"
+                        />
+                    <TextView
+                        android:text="좋아요"
+                        android:textSize="13dp"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{viewModel::onClick}"
+                    android:layout_height="match_parent">
+                    <com.beardedhen.androidbootstrap.AwesomeTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15dp"
+                        android:layout_marginRight="8dp"
+                        android:textStyle="bold"
+                        card_view:fontAwesomeIcon="fa_comments_o"
+                        />
+                    <TextView
+                        android:text="댓글"
+                        android:textSize="13dp"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/share_button"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:onClick="@{viewModel::onClick}"
+                    android:layout_height="match_parent">
+                    <com.beardedhen.androidbootstrap.AwesomeTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15dp"
+                        android:layout_marginRight="8dp"
+                        android:textStyle="bold"
+                        card_view:fontAwesomeIcon="fa_share_square_o"
+                        />
+                    <TextView
+                        android:text="공유하기"
+                        android:textSize="13dp"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
             </LinearLayout>
         </LinearLayout>
 

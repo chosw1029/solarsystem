@@ -2,6 +2,7 @@ package nextus.solarsystem.viewmodel;
 
 import android.content.Context;
 import android.databinding.BaseObservable;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 
@@ -37,9 +38,8 @@ public class BoardItemViewModel extends BaseObservable implements ViewModel{
         notifyChange();
     }
 
-    public void onItemClick(View view) {
-        //Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getUrl()));
-        //context.startActivity(intent);
+    public void onClick(View view) {
+        Snackbar.make(view,"준비중",Snackbar.LENGTH_SHORT).show();
     }
 
     public int getBoardID() { return boardItem.board_id; }
