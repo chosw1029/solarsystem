@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewModel"
+            type="nextus.solarsystem.viewmodel.BoardItemViewModel"/>
+    </data>
+
+    <LinearLayout
+        android:id="@+id/placeCard"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/boardImage"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            app:imageUrl="@{viewModel.imageUrl}"/>
+    </LinearLayout>
+</layout>

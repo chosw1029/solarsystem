@@ -1,5 +1,6 @@
 package nextus.solarsystem.utils;
 
+
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,8 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -26,6 +29,14 @@ public interface ContentService {
 
     @GET("pokemongo/getBoardData.jsp")
     Observable<List<BoardItem>> getData();
+
+    @FormUrlEncoded
+    @POST("pokemongo/addUser.jsp")
+    Call<ResponseBody> addUserData(
+            @Field("userID") String userID,
+            @Field("userNickName") String userNickName,
+            @Field("userThumnail") String userThumnail
+    );
 
     @Multipart
     @POST("pokemongo/multipart_temp.jsp")

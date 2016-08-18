@@ -2,14 +2,25 @@ package nextus.solarsystem.viewmodel;
 
 import android.content.Context;
 import android.databinding.BaseObservable;
+import android.databinding.BindingAdapter;
 import android.support.design.widget.Snackbar;
+import android.support.v7.view.menu.MenuView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
+import nextus.solarsystem.adapter.BoardItemRecyclerAdapter;
 import nextus.solarsystem.model.BoardItem;
 
 /**
@@ -25,11 +36,16 @@ public class BoardItemViewModel extends BaseObservable implements ViewModel{
 
     private Context context;
     private BoardItem boardItem;
+    private BoardItemRecyclerAdapter adapter;
+    private LinearLayoutManager layoutManager;
+    private List<String> data;
 
     public BoardItemViewModel(Context context, BoardItem boardItem)
     {
         this.context = context;
         this.boardItem = boardItem;
+        this.adapter = new BoardItemRecyclerAdapter(context);
+        this.layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
     }
 
     public void setBoardItem(BoardItem boardItem)
@@ -38,13 +54,43 @@ public class BoardItemViewModel extends BaseObservable implements ViewModel{
         notifyChange();
     }
 
+    public String getImageUrl()
+    {
+        return data.get(0);
+    }
+
+    @BindingAdapter({"bind:imageUrl"})
+    public static void loadImage(ImageView view, String imageUrl)
+    {
+        Glide.with(view.getContext()).load(imageUrl).thumbnail(0.1f).centerCrop().into(view);
+    }
+
+    public void setRecyclerView(RecyclerView recyclerView)
+    {
+        recyclerView.setAdapter(adapter);
+        adapter.setImageList(data);
+        recyclerView.setLayoutManager(layoutManager);
+        notifyChange();
+    }
+
+    public void setData(List<String> data)
+    {
+        this.data = data;
+        notifyChange();
+    }
+
     public void onClick(View view) {
         Snackbar.make(view,"준비중",Snackbar.LENGTH_SHORT).show();
     }
 
+    public List<String> getData()
+    {
+        return this.data;
+    }
+
     public int getBoardID() { return boardItem.board_id; }
-    public String getBoardTitle() { return boardItem.board_title; }
-    public String getBoardInfo() { return boardItem.board_info; }
+    public String getBoardText() { return boardItem.board_text; }
+    public String getUserThumnail() { return boardItem.user_thumnail; }
     public String getDate()
     {
         String date_string = boardItem.date;
@@ -93,7 +139,7 @@ public class BoardItemViewModel extends BaseObservable implements ViewModel{
         }
         return date;
     }
-    public String getImageCount() { return boardItem.image_count; }
+    public int getImageCount() { return boardItem.image_count; }
 
     public String getViewCount() {
         String temp = "조회수 "+boardItem.view_count;

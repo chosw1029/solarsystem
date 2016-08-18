@@ -61,18 +61,25 @@
                 <TextView
                     android:textSize="13dp"
                     android:id="@+id/board_title"
-                    android:text="@{viewModel.boardTitle}"
+                    android:text="@{viewModel.boardText}"
                     android:maxLines="3"
                     android:ellipsize="end"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
 
+            <!--
             <ImageView
                 android:id="@+id/board_img"
                 android:src="@null"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
+-->
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/board_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
 
             <LinearLayout
                 android:layout_marginTop="8dp"

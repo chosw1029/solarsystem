@@ -34,6 +34,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import nextus.solarsystem.GlobalApplication;
 import nextus.solarsystem.R;
 import nextus.solarsystem.adapter.ImageListAdapter;
 import nextus.solarsystem.databinding.ActivityCreateContentsBinding;
@@ -126,11 +127,16 @@ public class CreateContentsActivity extends Activity implements CreateContentsVi
                 adapter.notifyDataSetChanged();
                 break;
             case R.id.upload_button:
-                showProgressDialog();
-                uploadFile(view);
+                if( binding.getViewModel().createContents.edit_text == null )
+                {
+                    Snackbar.make(view, "내용을 입력하세요", Snackbar.LENGTH_SHORT).show();
+                }
+                else {
+                    showProgressDialog();
+                    uploadFile(view);
+                }
                 break;
         }
-
     }
 
     @Override
@@ -201,10 +207,14 @@ public class CreateContentsActivity extends Activity implements CreateContentsVi
                 RequestBody.create(
                         MediaType.parse("multipart/form-data"), userName);
 */
+
         RequestBody text = createPartFromString(binding.getViewModel().createContents.edit_text);
         RequestBody date = createPartFromString(new SimpleDateFormat("yyyy/MM/dd HH:mm").format(new Date(System.currentTimeMillis())));
         RequestBody userName = createPartFromString(binding.getViewModel().createContents.user_name);
+        RequestBody userID = createPartFromString(""+GlobalApplication.getGlobalApplicationContext().getUserProfile().getId());
         RequestBody count = createPartFromString(""+addedImg.size());
+
+        Log.e("IMAGE_SIZE",""+addedImg.size());
 
 
         MultipartBody.Part body;
@@ -220,6 +230,9 @@ public class CreateContentsActivity extends Activity implements CreateContentsVi
         map.put("date", date);
         map.put("userName", userName);
         map.put("count", count);
+        map.put("userID", userID);
+
+        //map.put("thumanil")
 
 
         // finally, execute the request

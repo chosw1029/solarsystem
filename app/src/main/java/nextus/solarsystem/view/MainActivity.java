@@ -2,6 +2,7 @@ package nextus.solarsystem.view;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -43,7 +44,12 @@ import nextus.solarsystem.R;
 import nextus.solarsystem.adapter.BoardItemAdapter;
 import nextus.solarsystem.databinding.ActivityMainBinding;
 import nextus.solarsystem.model.BoardItem;
+import nextus.solarsystem.utils.ContentService;
 import nextus.solarsystem.viewmodel.MainViewModel;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, MainViewModel.DataListener {
@@ -71,6 +77,38 @@ public class MainActivity extends BaseActivity
 
         nav_header = binding.navView.getHeaderView(0);
         userImg = (CircleImageView) nav_header.findViewById(R.id.user_img);
+    }
+
+    public void addUserData()
+    {
+        final SharedPreferences preferences = getSharedPreferences("Access", MODE_PRIVATE);
+
+        if( !preferences.getBoolean("Added", false))
+        {
+            String userID = ""+GlobalApplication.getGlobalApplicationContext().getUserProfile().getId();
+            String userNickName = GlobalApplication.getGlobalApplicationContext().getUserProfile().getNickname();
+            String userThumnail = GlobalApplication.getGlobalApplicationContext().getUserProfile().getThumbnailImagePath();
+
+            Call<ResponseBody> call = ContentService.Factory.create().addUserData(userID, userNickName, userThumnail);
+
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call,
+                                       Response<ResponseBody> response) {
+                    //Snackbar.make(view, "업로드가 완료되었습니다.", Snackbar.LENGTH_SHORT).show();
+                    //finish();
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putBoolean("Added", true);
+                    editor.commit();
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    Log.e("Upload error:", t.getMessage());
+                }
+            });
+        }
+
     }
 
     public void setUpRecyclerView(RecyclerView recyclerView)
@@ -146,9 +184,9 @@ public class MainActivity extends BaseActivity
             startActivity(new Intent(this, UsermgmtMainActivity.class));
 
         } else if (id == R.id.nav_share) {
-            requestUpdateProfile();
+            //requestUpdateProfile();
         } else if (id == R.id.nav_send) {
-            onClickUnlink();
+            //onClickUnlink();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -301,6 +339,7 @@ public class MainActivity extends BaseActivity
                 GlobalApplication.getGlobalApplicationContext().setUserProfile(userProfile);
                 Glide.with(getApplicationContext()).load(userProfile.getProfileImagePath()).centerCrop().into(userImg);
                 ((TextView) binding.navView.getHeaderView(0).findViewById(R.id.user_name)).setText(GlobalApplication.getGlobalApplicationContext().getUserProfile().getNickname());
+                addUserData();
                 //requestUpdateProfile(userProfile);
             }
 

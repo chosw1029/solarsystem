@@ -55,12 +55,12 @@ public class CreateContentsViewModel extends BaseObservable implements ViewModel
     {
         createContents = new CreateContents();
         createContents.setUser_name(GlobalApplication.getGlobalApplicationContext().getUserProfile().getNickname());
-        createContents.setUser_thumnail(GlobalApplication.getGlobalApplicationContext().getUserProfile().getThumbnailImagePath());
+        //createContents.setUser_thumnail(GlobalApplication.getGlobalApplicationContext().getUserProfile().getThumbnailImagePath());
     }
 
     public void setImage(CircleImageView view)
     {
-        Glide.with(this.context).load(createContents.getUser_thumnail()).diskCacheStrategy(DiskCacheStrategy.RESULT).into(view);
+        Glide.with(this.context).load(GlobalApplication.getGlobalApplicationContext().getUserProfile().getThumbnailImagePath()).diskCacheStrategy(DiskCacheStrategy.RESULT).into(view);
     }
 
     public TextWatcher watcher = new TextWatcher() {
