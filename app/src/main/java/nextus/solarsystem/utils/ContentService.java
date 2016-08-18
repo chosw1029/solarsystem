@@ -28,7 +28,7 @@ import rx.Observable;
 public interface ContentService {
 
     @GET("pokemongo/getBoardData.jsp")
-    Observable<List<BoardItem>> getData();
+    Observable<BoardItem> getData();
 
     @FormUrlEncoded
     @POST("pokemongo/addUser.jsp")

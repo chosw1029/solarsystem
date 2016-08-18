@@ -339,7 +339,6 @@ public class CreateContentsActivity extends Activity implements CreateContentsVi
     {
         super.onDestroy();
         binding.getViewModel().destroy();
-        addedImg.clear();
         addedImg = null;
         binding = null;
     }

@@ -360,7 +360,7 @@ public class MainActivity extends BaseActivity
     }
 
     @Override
-    public void onBoardItmeChanged(List<BoardItem> boardItems) {
+    public void onBoardItmeChanged(BoardItem boardItems) {
         BoardItemAdapter adapter = (BoardItemAdapter) binding.appBarMain.contentMain.mainRecyclerView.getAdapter();
         adapter.setBoardData(boardItems);
         adapter.notifyDataSetChanged();

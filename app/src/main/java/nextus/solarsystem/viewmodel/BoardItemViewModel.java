@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -35,24 +36,27 @@ import nextus.solarsystem.model.BoardItem;
 public class BoardItemViewModel extends BaseObservable implements ViewModel{
 
     private Context context;
-    private BoardItem boardItem;
+    private BoardItem.BoardData boardItem;
     private BoardItemRecyclerAdapter adapter;
     private LinearLayoutManager layoutManager;
     private List<String> data;
 
-    public BoardItemViewModel(Context context, BoardItem boardItem)
+    public BoardItemViewModel(Context context, BoardItem.BoardData boardItem)
     {
         this.context = context;
         this.boardItem = boardItem;
-        this.adapter = new BoardItemRecyclerAdapter(context);
+        this.data = Collections.emptyList();
+        this.adapter = new BoardItemRecyclerAdapter(context, data);
         this.layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
     }
 
-    public void setBoardItem(BoardItem boardItem)
+    public void setBoardItem(BoardItem.BoardData boardItem)
     {
         this.boardItem = boardItem;
         notifyChange();
     }
+
+    public BoardItemRecyclerAdapter getAdapter() { return adapter; }
 
     public String getImageUrl()
     {
@@ -70,7 +74,6 @@ public class BoardItemViewModel extends BaseObservable implements ViewModel{
         recyclerView.setAdapter(adapter);
         adapter.setImageList(data);
         recyclerView.setLayoutManager(layoutManager);
-        notifyChange();
     }
 
     public void setData(List<String> data)
@@ -90,7 +93,7 @@ public class BoardItemViewModel extends BaseObservable implements ViewModel{
 
     public int getBoardID() { return boardItem.board_id; }
     public String getBoardText() { return boardItem.board_text; }
-    public String getUserThumnail() { return boardItem.user_thumnail; }
+    public String getUserThumnail() { return boardItem.board_text; }
     public String getDate()
     {
         String date_string = boardItem.date;
@@ -152,7 +155,6 @@ public class BoardItemViewModel extends BaseObservable implements ViewModel{
         String temp = "좋아요 "+boardItem.like_count;
         return  temp; }
     public String getUserName() { return boardItem.user_name; }
-    public String getBoardImg() { return boardItem.board_img; }
 
     @Override
     public void destroy() {

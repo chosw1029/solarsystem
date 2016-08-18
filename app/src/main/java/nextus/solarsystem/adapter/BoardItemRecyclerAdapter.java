@@ -30,21 +30,23 @@ public class BoardItemRecyclerAdapter extends RecyclerView.Adapter<BoardItemRecy
     private List<String> imageList;
     private Context context;
 
-    public BoardItemRecyclerAdapter(Context context) {
+    public BoardItemRecyclerAdapter(Context context, List<String> data) {
         this.context = context;
-        this.imageList = Collections.emptyList();
+        this.imageList = data;
     }
 
     public BoardItemRecyclerAdapter(List<String> imageList) {
         this.imageList = imageList;
     }
 
+
     public void setImageList(List<String> imageList) {
         if( this.imageList != imageList )
         {
             this.imageList = imageList;
-            notifyDataSetChanged();
+
         }
+        notifyDataSetChanged();
     }
 
     public List<String> getImageList() { return imageList; }
@@ -57,26 +59,17 @@ public class BoardItemRecyclerAdapter extends RecyclerView.Adapter<BoardItemRecy
 
     @Override
     public void onBindViewHolder(AddedImageViewHolder holder, int position) {
-        holder.bindItem(imageList);
-
-        /*
-        holder.bindItem(imageList);
-        holder.binding.addedImage.setImageBitmap(imageList.get(position));
-        holder.binding.cancelButton.setVisibility(View.VISIBLE);
-        holder.binding.cancelButton.setImageResource(R.drawable.ic_close_black_24dp);
-        holder.binding.cancelButton.setTag(position);
-*/
-
-        //holder.bindItem(boardData.get(position));
-        //Glide.with(this.context).load(boardData.get(position).board_img).thumbnail(0.1f).centerCrop().into(holder.binding.boardImg);
-
-        //holder.binding.userId.setText(GlobalApplication.getGlobalApplicationContext().getUserProfile().getNickname());
-       // holder.binding.userIcon
+        holder.bindItem(position);
+        //if( (int) holder.binding.boardImage.getTag(holder.binding.boardImage.getId()) == position )
+        Glide.with(context).load(imageList.get(position)).thumbnail(0.1f).centerCrop().into(holder.binding.boardImage);
+        //setImageList(holder.binding.getViewModel().getData());
     }
 
     @Override
     public int getItemCount() {
-        return imageList.size();
+        if(imageList == null ) return 0;
+        else
+            return imageList.size();
     }
 
     public static class AddedImageViewHolder extends RecyclerView.ViewHolder {
@@ -87,15 +80,8 @@ public class BoardItemRecyclerAdapter extends RecyclerView.Adapter<BoardItemRecy
             this.binding = binding;
         }
 
-        void bindItem(List<String> data) {
-            if (binding.getViewModel() == null) {
-                binding.setViewModel(new BoardItemViewModel(itemView.getContext(), null));
-            }
-            else
-            {
-                binding.getViewModel().setData(data);
-            }
-
+        void bindItem(int position) {
+            //binding.boardImage.setTag(binding.boardImage.getId(), position);
         }
     }
 }

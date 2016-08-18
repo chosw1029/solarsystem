@@ -23,7 +23,7 @@ public class MainViewModel implements ViewModel {
     private Context context;
     private Subscription subscription;
     private DataListener dataListener;
-    private List<BoardItem> boardItems;
+    private BoardItem boardItems;
 
     public MainViewModel(Context context, DataListener dataListener)
     {
@@ -44,7 +44,7 @@ public class MainViewModel implements ViewModel {
         subscription = contentService.getData()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(GlobalApplication.getGlobalApplicationContext().defaultSubscribeScheduler())
-                .subscribe(new Subscriber<List<BoardItem>>(){
+                .subscribe(new Subscriber<BoardItem>(){
                     @Override
                     public void onCompleted(){
                         if (dataListener != null) dataListener.onBoardItmeChanged(boardItems);
@@ -55,7 +55,7 @@ public class MainViewModel implements ViewModel {
                         Log.e(TAG, "Error loading Item ", error);
                     }
                     @Override
-                    public void onNext(List<BoardItem> boardItems)
+                    public void onNext(BoardItem boardItems)
                     {
                         Log.i(TAG, "Item loaded " + boardItems);
                         MainViewModel.this.boardItems = boardItems;
@@ -73,6 +73,6 @@ public class MainViewModel implements ViewModel {
 
     public interface DataListener
     {
-        void onBoardItmeChanged(List<BoardItem> boardItems);
+        void onBoardItmeChanged(BoardItem boardItems);
     }
 }
