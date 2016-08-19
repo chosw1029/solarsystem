@@ -7,12 +7,17 @@
             type="nextus.solarsystem.viewmodel.BoardItemViewModel"/>
     </data>
     <LinearLayout
-        android:id="@+id/placeCard"
-        android:orientation="vertical" android:layout_width="match_parent"
+        android:id="@+id/placeCardImage"
+        android:orientation="vertical"
+        android:foreground="?attr/selectableItemBackground"
+        android:onClick="@{viewModel::onClick}"
+        android:layout_width="match_parent"
         android:layout_height="match_parent">
         <ImageView
             android:id="@+id/boardImage"
+            android:layout_margin="4dp"
             android:layout_width="match_parent"
             android:layout_height="300dp"/>
     </LinearLayout>
+
 </layout>

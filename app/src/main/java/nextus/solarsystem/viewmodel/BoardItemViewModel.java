@@ -1,10 +1,12 @@
 package nextus.solarsystem.viewmodel;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.BindingAdapter;
 import android.support.design.widget.Snackbar;
 import android.support.v7.view.menu.MenuView;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,6 +23,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import nextus.solarsystem.R;
 import nextus.solarsystem.adapter.BoardItemRecyclerAdapter;
 import nextus.solarsystem.model.BoardItem;
 
@@ -39,6 +42,7 @@ public class BoardItemViewModel extends BaseObservable implements ViewModel{
     private BoardItem.BoardData boardItem;
     private BoardItemRecyclerAdapter adapter;
     private LinearLayoutManager layoutManager;
+    private GridLayoutManager gridLayoutManager;
     private List<String> data;
 
     public BoardItemViewModel(Context context, BoardItem.BoardData boardItem)
@@ -48,6 +52,7 @@ public class BoardItemViewModel extends BaseObservable implements ViewModel{
         this.data = Collections.emptyList();
         this.adapter = new BoardItemRecyclerAdapter(context, data);
         this.layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+        this.gridLayoutManager = new GridLayoutManager(context, 2);
     }
 
     public void setBoardItem(BoardItem.BoardData boardItem)
@@ -57,6 +62,11 @@ public class BoardItemViewModel extends BaseObservable implements ViewModel{
     }
 
     public BoardItemRecyclerAdapter getAdapter() { return adapter; }
+
+    public void setAdapter(BoardItemRecyclerAdapter adapter)
+    {
+        this.adapter = adapter;
+    }
 
     public String getImageUrl()
     {
@@ -82,8 +92,30 @@ public class BoardItemViewModel extends BaseObservable implements ViewModel{
         notifyChange();
     }
 
+    public interface startBoardItemActivity
+    {
+        public void boardItemView(View view);
+    }
+
+
     public void onClick(View view) {
-        Snackbar.make(view,"준비중",Snackbar.LENGTH_SHORT).show();
+        switch (view.getId())
+        {
+            case R.id.like_button:
+                Snackbar.make(view, "좋아요", Snackbar.LENGTH_SHORT).show();
+                break;
+
+            case R.id.comment_button:
+                Snackbar.make(view, "댓글", Snackbar.LENGTH_SHORT).show();
+                break;
+
+            case R.id.share_button:
+                Snackbar.make(view, "공유", Snackbar.LENGTH_SHORT).show();
+                break;
+
+            default:
+                Snackbar.make(view,"준비중",Snackbar.LENGTH_SHORT).show();
+        }
     }
 
     public List<String> getData()

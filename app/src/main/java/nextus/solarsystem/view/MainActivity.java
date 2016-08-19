@@ -45,6 +45,7 @@ import nextus.solarsystem.adapter.BoardItemAdapter;
 import nextus.solarsystem.databinding.ActivityMainBinding;
 import nextus.solarsystem.model.BoardItem;
 import nextus.solarsystem.utils.ContentService;
+import nextus.solarsystem.viewmodel.BoardItemViewModel;
 import nextus.solarsystem.viewmodel.MainViewModel;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -52,7 +53,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, MainViewModel.DataListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, MainViewModel.DataListener, BoardItemViewModel.startBoardItemActivity {
 
     CircleImageView userImg;
 
@@ -364,5 +365,22 @@ public class MainActivity extends BaseActivity
         BoardItemAdapter adapter = (BoardItemAdapter) binding.appBarMain.contentMain.mainRecyclerView.getAdapter();
         adapter.setBoardData(boardItems);
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void boardItemView(View view) {
+        switch(view.getId())
+        {
+            case R.id.comment_button:
+                Intent intent = new Intent(this, CommentsActivity.class);
+                //intent.putExtra("position", (int)view.getTag());
+                startActivity(intent);
+                break;
+            default:
+                intent = new Intent(this, BoardContentsActivity.class);
+                intent.putExtra("position", (int)view.getTag());
+                startActivity(intent);
+        }
+
     }
 }

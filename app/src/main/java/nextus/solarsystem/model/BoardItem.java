@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by chosw on 2016-08-11.
@@ -20,22 +21,22 @@ import java.util.ArrayList;
 public class BoardItem {
 
     //public String board_img;
-    @SerializedName("board_data") public ArrayList<BoardData> boardData = new ArrayList<>();
-    @SerializedName("board_imgList") public ArrayList<BoardImage> board_img = new ArrayList<>();
+    @SerializedName("board_data") public List<BoardData> boardData = new ArrayList<>();
+    @SerializedName("board_imgList") public List<List<String>> board_img = new ArrayList<>();
 
-    public ArrayList<BoardData> getBoardData() {
+    public List<BoardData> getBoardData() {
         return boardData;
     }
 
-    public ArrayList<BoardImage> getBoard_img() {
+    public List<List<String>> getBoard_img() {
         return board_img;
     }
-
+/*
     public static class BoardImage
     {
-        @SerializedName("board_img") public String board_img;
+        @SerializedName("board_img") public List<String> board_img;
 
-        public String getBoard_img() {
+        public List<String> getBoard_img() {
             return board_img;
         }
 
@@ -43,7 +44,7 @@ public class BoardItem {
         {}
 
     }
-
+*/
     public static class BoardData implements Parcelable
     {
         @SerializedName("board_id") public int board_id;

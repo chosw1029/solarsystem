@@ -31,13 +31,11 @@ public class BoardItemAdapter extends RecyclerView.Adapter<BoardItemAdapter.Boar
 
     private BoardItem boardData;
     private Context context;
-    private List<String> board_imgList;
 
 
     public BoardItemAdapter(Context context) {
         this.context = context;
         this.boardData = new BoardItem();
-        this.board_imgList = new ArrayList<>();
     }
 
     public BoardItemAdapter(BoardItem boardData) {
@@ -61,32 +59,17 @@ public class BoardItemAdapter extends RecyclerView.Adapter<BoardItemAdapter.Boar
     @Override
     public void onBindViewHolder(BoardItemViewHolder holder, int position) {
         holder.bindItem(boardData.getBoardData().get(position));
+        holder.binding.placeCard.setTag(position);
 
         if(boardData.getBoardData().get(position).image_count > 0)
         {
-            board_imgList.clear();
-            board_imgList.add(boardData.getBoard_img().get(position).getBoard_img());
-            holder.binding.getViewModel().getAdapter().setImageList(board_imgList);
+            holder.binding.getViewModel().getAdapter().setImageList(boardData.getBoard_img().get(position));
         }
         else
         {
             holder.binding.getViewModel().getAdapter().setImageList(Collections.<String>emptyList());
         }
-        //holder.binding.
-/*
-        if(boardData.get(position).image_count > 0) {
-            board_imgList.clear();
-            board_imgList.add(boardData.get(position).board_img);
-            holder.bindData(board_imgList);
-        }*/
-
-        //Glide.with(this.context).load(boardData.get(position).board_img).thumbnail(0.1f).centerCrop().into(holder.binding.boardImg);
         Glide.with(this.context).load(boardData.getBoardData().get(position).user_thumnail).thumbnail(0.1f).centerCrop().into(holder.binding.userIcon);
-
-        //holder.binding.boardRecycler.getAdapter()
-        //holder.binding.userId.setText(GlobalApplication.getGlobalApplicationContext().getUserProfile().getNickname());
-       // holder.binding.userIcon
-
     }
 
     @Override

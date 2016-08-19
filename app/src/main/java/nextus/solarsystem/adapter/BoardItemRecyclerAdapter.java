@@ -41,11 +41,7 @@ public class BoardItemRecyclerAdapter extends RecyclerView.Adapter<BoardItemRecy
 
 
     public void setImageList(List<String> imageList) {
-        if( this.imageList != imageList )
-        {
-            this.imageList = imageList;
-
-        }
+        this.imageList = imageList;
         notifyDataSetChanged();
     }
 
@@ -59,7 +55,7 @@ public class BoardItemRecyclerAdapter extends RecyclerView.Adapter<BoardItemRecy
 
     @Override
     public void onBindViewHolder(AddedImageViewHolder holder, int position) {
-        holder.bindItem(position);
+        holder.bindItem(imageList, this);
         //if( (int) holder.binding.boardImage.getTag(holder.binding.boardImage.getId()) == position )
         Glide.with(context).load(imageList.get(position)).thumbnail(0.1f).centerCrop().into(holder.binding.boardImage);
         //setImageList(holder.binding.getViewModel().getData());
@@ -76,11 +72,17 @@ public class BoardItemRecyclerAdapter extends RecyclerView.Adapter<BoardItemRecy
         final BoardImageViewBinding binding;
 
         public AddedImageViewHolder(BoardImageViewBinding binding) {
-            super(binding.placeCard);
+            super(binding.placeCardImage);
             this.binding = binding;
         }
 
-        void bindItem(int position) {
+        void bindItem(List<String> data, BoardItemRecyclerAdapter adapter) {
+            if( binding.getViewModel() == null )
+            {
+                binding.setViewModel(new BoardItemViewModel(itemView.getContext(), null));
+                binding.getViewModel().setData(data);
+                binding.getViewModel().setAdapter(adapter);
+            }
             //binding.boardImage.setTag(binding.boardImage.getId(), position);
         }
     }
