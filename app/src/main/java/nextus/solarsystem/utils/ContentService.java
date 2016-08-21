@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import nextus.solarsystem.model.BoardItem;
+import nextus.solarsystem.model.Comment;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -29,6 +30,10 @@ public interface ContentService {
 
     @GET("pokemongo/getBoardData.jsp")
     Observable<BoardItem> getData();
+
+    @FormUrlEncoded
+    @POST("pokemongo/getCommentData.jsp")
+    Observable<List<Comment>> getCommentData(@Field("board_id") int board_id);
 
     @FormUrlEncoded
     @POST("pokemongo/addUser.jsp")

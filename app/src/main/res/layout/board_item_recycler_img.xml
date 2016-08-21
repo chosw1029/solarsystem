@@ -155,7 +155,7 @@
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:foreground="?attr/selectableItemBackground"
-                    android:onClick="boardItemView"
+                    android:onClick="@{viewModel::onClick}"
                     android:layout_height="match_parent">
                     <com.beardedhen.androidbootstrap.AwesomeTextView
                         android:layout_width="wrap_content"

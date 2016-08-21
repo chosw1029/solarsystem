@@ -26,6 +26,7 @@ import java.util.Locale;
 import nextus.solarsystem.R;
 import nextus.solarsystem.adapter.BoardItemRecyclerAdapter;
 import nextus.solarsystem.model.BoardItem;
+import nextus.solarsystem.view.CommentsActivity;
 
 /**
  * Created by chosw on 2016-08-11.
@@ -97,6 +98,11 @@ public class BoardItemViewModel extends BaseObservable implements ViewModel{
         public void boardItemView(View view);
     }
 
+    public void onClickComment()
+    {
+
+    }
+
 
     public void onClick(View view) {
         switch (view.getId())
@@ -106,7 +112,9 @@ public class BoardItemViewModel extends BaseObservable implements ViewModel{
                 break;
 
             case R.id.comment_button:
-                Snackbar.make(view, "댓글", Snackbar.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, CommentsActivity.class);
+                intent.putExtra("board_id", boardItem.board_id);
+                context.startActivity(intent);
                 break;
 
             case R.id.share_button:

@@ -1,42 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/activity_comments"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     tools:context="nextus.solarsystem.view.CommentsActivity">
-
-    <ScrollView
-        android:layout_marginBottom="40dp"
+    <data>
+        <variable
+            name="viewModel"
+            type="nextus.solarsystem.viewmodel.CommentsViewModel"/>
+    </data>
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:orientation="vertical"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/comments_recycler"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:text="TEST COMMENT"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:layout_gravity="bottom"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+            <com.beardedhen.androidbootstrap.BootstrapEditText
+                android:hint="댓글을 입력하세요..."
+                android:layout_weight="8.5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"/>
+            <com.beardedhen.androidbootstrap.BootstrapButton
+                android:layout_weight="1.5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                app:bootstrapBrand="success"/>
         </LinearLayout>
-    </ScrollView>
+    </FrameLayout>
 
-    <LinearLayout
-        android:layout_gravity="bottom"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="40dp">
-        <com.beardedhen.androidbootstrap.BootstrapEditText
-            android:hint="댓글을 입력하세요..."
-            android:layout_weight="8.5"
-            android:layout_width="0dp"
-            android:layout_height="match_parent" />
-        <com.beardedhen.androidbootstrap.BootstrapButton
-            android:layout_weight="1.5"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            app:bootstrapBrand="success"/>
-    </LinearLayout>
+</layout>
 
-</FrameLayout>

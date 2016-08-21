@@ -373,6 +373,7 @@ public class MainActivity extends BaseActivity
         {
             case R.id.comment_button:
                 Intent intent = new Intent(this, CommentsActivity.class);
+
                 //intent.putExtra("position", (int)view.getTag());
                 startActivity(intent);
                 break;

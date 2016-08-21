@@ -2,21 +2,46 @@ package nextus.solarsystem.view;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Display;
-import android.view.Window;
 import android.view.WindowManager;
 
-import nextus.solarsystem.R;
+import java.util.List;
 
-public class CommentsActivity extends Activity {
+import nextus.solarsystem.R;
+import nextus.solarsystem.adapter.CommentAdapter;
+import nextus.solarsystem.databinding.ActivityCommentsBinding;
+import nextus.solarsystem.model.Comment;
+import nextus.solarsystem.viewmodel.CommentsViewModel;
+
+public class CommentsActivity extends Activity implements CommentsViewModel.DataListener{
+
+    private ActivityCommentsBinding binding;
+    private CommentsViewModel commentsViewModel;
+    private CommentAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_comments);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_comments);
+        commentsViewModel = new CommentsViewModel(this);
+        commentsViewModel.setDataListener(this);
+        commentsViewModel.setBoardID(getIntent().getIntExtra("board_id", 0));
+        commentsViewModel.loadCommentData();
+        binding.setViewModel(commentsViewModel);
         setUpDisplay();
+        setUpRecyclerView(binding.commentsRecycler);
+    }
+
+    public void setUpRecyclerView(RecyclerView recyclerView)
+    {
+        adapter = new CommentAdapter(this);
+        recyclerView.setAdapter(adapter);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
     }
 
     public void setUpDisplay()
@@ -28,5 +53,12 @@ public class CommentsActivity extends Activity {
 
         getWindow().getAttributes().width = width;
         getWindow().getAttributes().height = height;
+    }
+
+    @Override
+    public void onCommentItemChanged(List<Comment> comment) {
+        adapter = (CommentAdapter) binding.commentsRecycler.getAdapter();
+        adapter.setCommentList(comment);
+        adapter.notifyDataSetChanged();
     }
 }
