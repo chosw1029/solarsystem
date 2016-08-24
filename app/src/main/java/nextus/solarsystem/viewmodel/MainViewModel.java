@@ -1,6 +1,7 @@
 package nextus.solarsystem.viewmodel;
 
 import android.content.Context;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 
 import java.util.List;
@@ -20,10 +21,12 @@ public class MainViewModel implements ViewModel {
 
     private static final String TAG = "BestLocationViewModel";
 
+
     private Context context;
     private Subscription subscription;
     private DataListener dataListener;
     private BoardItem boardItems;
+    private SwipeRefreshLayout refreshLayout;
 
     public MainViewModel(Context context, DataListener dataListener)
     {
@@ -31,11 +34,18 @@ public class MainViewModel implements ViewModel {
         this.dataListener = dataListener;
         loadBoardData();
     }
-/*
-    public interface OnClickListener{
-        void onClick(View view);
+
+    public void setRefreshLayout(SwipeRefreshLayout refreshLayout)
+    {
+        this.refreshLayout = refreshLayout;
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadBoardData();
+            }
+        });
     }
-*/
+
     public void loadBoardData()
     {
         if (subscription != null && !subscription.isUnsubscribed()) subscription.unsubscribe();
@@ -48,6 +58,7 @@ public class MainViewModel implements ViewModel {
                     @Override
                     public void onCompleted(){
                         if (dataListener != null) dataListener.onBoardItmeChanged(boardItems);
+                        refreshLayout.setRefreshing(false);
                     }
                     @Override
                     public void onError(Throwable error)
@@ -61,6 +72,7 @@ public class MainViewModel implements ViewModel {
                         MainViewModel.this.boardItems = boardItems;
                     }
                 });
+
     }
 
     @Override

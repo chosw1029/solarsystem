@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +24,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.kakao.auth.ApiResponseCallback;
 import com.kakao.auth.ErrorCode;
 import com.kakao.network.ErrorResult;
@@ -65,12 +69,14 @@ public class MainActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestMe();
+
         mainViewModel = new MainViewModel(this, this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setViewModel(mainViewModel);
 
         binding.appBarMain.fab.setOnClickListener(this);
         binding.navView.setNavigationItemSelectedListener(this);
+        binding.getViewModel().setRefreshLayout(binding.appBarMain.contentMain.swipeRefresh);
 
         setUpDrawerLayoutAndToolbar(binding.drawerLayout, binding.appBarMain.toolbar);
         setUpRecyclerView(binding.appBarMain.contentMain.mainRecyclerView);
@@ -96,11 +102,9 @@ public class MainActivity extends BaseActivity
                 @Override
                 public void onResponse(Call<ResponseBody> call,
                                        Response<ResponseBody> response) {
-                    //Snackbar.make(view, "업로드가 완료되었습니다.", Snackbar.LENGTH_SHORT).show();
-                    //finish();
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putBoolean("Added", true);
-                    editor.commit();
+                    editor.apply();
                 }
 
                 @Override
@@ -109,7 +113,6 @@ public class MainActivity extends BaseActivity
                 }
             });
         }
-
     }
 
     public void setUpRecyclerView(RecyclerView recyclerView)
@@ -122,6 +125,7 @@ public class MainActivity extends BaseActivity
     public void setUpDrawerLayoutAndToolbar(DrawerLayout drawer, Toolbar toolbar)
     {
         setSupportActionBar(toolbar);
+        setTitle("태양계");
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);

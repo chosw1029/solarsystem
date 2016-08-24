@@ -19,7 +19,9 @@ package nextus.solarsystem;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.support.multidex.MultiDex;
 import android.support.v4.util.LruCache;
 
 import com.android.volley.RequestQueue;
@@ -59,6 +61,7 @@ public class GlobalApplication extends Application {
         GlobalApplication.currentActivity = currentActivity;
     }
 
+
     public void setUserProfile(UserProfile profile)
     {
         userProfile = profile;
@@ -85,6 +88,7 @@ public class GlobalApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
         instance = this;
 
         TypefaceProvider.registerDefaultIconSets();
@@ -107,7 +111,9 @@ public class GlobalApplication extends Application {
         };
 
         imageLoader = new ImageLoader(requestQueue, imageCache);
+
     }
+
 
     /**
      * 이미지 로더를 반환한다.

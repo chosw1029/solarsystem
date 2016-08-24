@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "697495466407",
+    "firebase_url": "https://solarsystem-141313.firebaseio.com",
+    "project_id": "solarsystem-141313",
+    "storage_bucket": "solarsystem-141313.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:697495466407:android:081f71edde384544",
+        "android_client_info": {
+          "package_name": "nextus.solarsystem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "697495466407-0ske7km3p6d4ginkj53713rruu5otnem.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyKl5ucTGJbGgDuQ8i1TPB_-OhQ6LPe6s"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
