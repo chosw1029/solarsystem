@@ -80,10 +80,19 @@
         <activity
             android:name=".view.BoardContentsActivity"
             android:parentActivityName=".view.MainActivity" />
-
-        <activity android:name=".view.CommentsActivity"
+        <activity
+            android:name=".view.CommentsActivity"
             android:parentActivityName=".view.MainActivity"
-            android:theme="@style/Theme.AppCompat.Light.Dialog"/>
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+        <activity
+            android:name=".view.PointActivity"
+            android:label="@string/title_activity_point"
+            android:parentActivityName=".view.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="nextus.solarsystem.view.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

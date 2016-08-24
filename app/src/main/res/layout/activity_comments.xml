@@ -13,8 +13,11 @@
         android:layout_height="match_parent">
         <android.support.v7.widget.RecyclerView
             android:id="@+id/comments_recycler"
+            android:scrollbars="vertical"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="56dp"/>
         <LinearLayout
             android:layout_gravity="bottom"
             android:orientation="horizontal"
@@ -22,13 +25,18 @@
             android:layout_height="40dp">
             <com.beardedhen.androidbootstrap.BootstrapEditText
                 android:hint="댓글을 입력하세요..."
-                android:layout_weight="8.5"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"/>
-            <com.beardedhen.androidbootstrap.BootstrapButton
-                android:layout_weight="1.5"
+                android:layout_weight="8"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                app:bootstrapSize="lg"
+                android:addTextChangedListener="@{viewModel.watcher}"/>
+            <com.beardedhen.androidbootstrap.BootstrapButton
+                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:onClick="create"
+                app:bootstrapSize="xl"
+                app:materialIcon="md_play_circle_outline"
                 app:bootstrapBrand="success"/>
         </LinearLayout>
     </FrameLayout>

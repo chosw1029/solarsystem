@@ -53,7 +53,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.AddedIma
         holder.bindItem(commentList.get(position));
 
         Log.e("Adapter", ""+position);
-        holder.binding.textView2.setText("SETSEsefsefesfsEFSEFEF");
+        //holder.binding.textView2.setText("SETSEsefsefesfsEFSEFEF");
         //holder.bindItem(boardData.get(position));
         //Glide.with(this.context).load(boardData.get(position).board_img).thumbnail(0.1f).centerCrop().into(holder.binding.boardImg);
         //holder.binding.userId.setText(GlobalApplication.getGlobalApplicationContext().getUserProfile().getNickname());

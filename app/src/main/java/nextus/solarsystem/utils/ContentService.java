@@ -43,6 +43,16 @@ public interface ContentService {
             @Field("userThumnail") String userThumnail
     );
 
+    @FormUrlEncoded
+    @POST("pokemongo/createComment.jsp")
+    Call<ResponseBody> createComment(
+            @Field("board_id") String board_id,
+            @Field("user_id") String user_id,
+            @Field("user_name") String user_name,
+            @Field("comment_data") String comment_data,
+            @Field("date") String date
+    );
+
     @Multipart
     @POST("pokemongo/multipart_temp.jsp")
     Call<ResponseBody> upload(@Part("description") RequestBody description,
