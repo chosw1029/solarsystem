@@ -1,6 +1,7 @@
 package nextus.solarsystem.view;
 
 import android.databinding.DataBindingUtil;
+import android.media.MediaPlayer;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -18,7 +19,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import nextus.solarsystem.R;
 import nextus.solarsystem.databinding.ActivityPointBinding;
@@ -127,7 +130,39 @@ public class PointActivity extends AppCompatActivity {
             View rootView = inflater.inflate(R.layout.fragment_point, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+            videoSetting((VideoView)rootView.findViewById(R.id.videoView), rootView);
+            videoSetting2((VideoView)rootView.findViewById(R.id.videoView2), rootView);
             return rootView;
+        }
+
+        public void videoSetting(final VideoView videoView, View rootView)
+        {
+            videoView.setVideoPath("http://restartallkill.nextus.co.kr/pokemongo/video/LinkinPark.mp4");
+            final MediaController mediaController = new MediaController(getContext());
+            videoView.setMediaController(mediaController);
+            videoView.seekTo(1500);
+            mediaController.setAnchorView(rootView.findViewById(R.id.video_anchor));
+            videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mediaPlayer) {
+                    mediaController.hide();
+                }
+            });
+        }
+
+        public void videoSetting2(VideoView videoView, View rootView)
+        {
+            videoView.setVideoPath("http://restartallkill.nextus.co.kr/pokemongo/video/yourvoice.mp4");
+            final MediaController mediaController = new MediaController(getContext());
+            videoView.setMediaController(mediaController);
+            videoView.seekTo(1500);
+            mediaController.setAnchorView(rootView.findViewById(R.id.video_anchor));
+            videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mediaPlayer) {
+                    //mediaController.show(0);
+                }
+            });
         }
     }
 
@@ -151,7 +186,7 @@ public class PointActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return 1;
         }
 
         @Override

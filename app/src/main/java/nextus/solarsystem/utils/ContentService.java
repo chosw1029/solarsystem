@@ -36,6 +36,12 @@ public interface ContentService {
     Observable<List<Comment>> getCommentData(@Field("board_id") int board_id);
 
     @FormUrlEncoded
+    @POST("pokemongo/createLike.jsp")
+    Call<ResponseBody> createLike(
+            @Field("board_id") String board_id,
+            @Field("user_id") String user_id);
+
+    @FormUrlEncoded
     @POST("pokemongo/addUser.jsp")
     Call<ResponseBody> addUserData(
             @Field("userID") String userID,

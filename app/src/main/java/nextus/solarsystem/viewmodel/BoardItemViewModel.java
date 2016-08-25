@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.BindingAdapter;
+import android.graphics.Color;
 import android.support.design.widget.Snackbar;
 import android.support.v7.view.menu.MenuView;
 import android.support.v7.widget.GridLayoutManager;
@@ -13,6 +14,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
@@ -45,6 +48,7 @@ public class BoardItemViewModel extends BaseObservable implements ViewModel{
     private LinearLayoutManager layoutManager;
     private GridLayoutManager gridLayoutManager;
     private List<String> data;
+    private boolean like = false;
 
     public BoardItemViewModel(Context context, BoardItem.BoardData boardItem)
     {
@@ -103,12 +107,25 @@ public class BoardItemViewModel extends BaseObservable implements ViewModel{
 
     }
 
+    public void setlike(boolean isLike)
+    {
+        like = isLike;
+    }
+
+    public boolean getLike() { return like; }
+
 
     public void onClick(View view) {
         switch (view.getId())
         {
             case R.id.like_button:
-                Snackbar.make(view, "좋아요", Snackbar.LENGTH_SHORT).show();
+                TextView textView = (TextView) view.findViewById(R.id.like_text);
+                setlike(!getLike());
+                if(getLike())
+                    textView.setTextColor(Color.BLUE);
+                else
+                    textView.setTextColor(Color.BLACK);
+                Snackbar.make(view, "좋아요 :"+boardItem.board_id, Snackbar.LENGTH_SHORT).show();
                 break;
 
             case R.id.comment_button:
