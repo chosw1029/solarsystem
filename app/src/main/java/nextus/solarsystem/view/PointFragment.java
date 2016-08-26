@@ -42,13 +42,13 @@ public class PointFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_point, container, false);
-        TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-        textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-        videoSetting((VideoView)rootView.findViewById(R.id.videoView), rootView);
-        videoSetting2((VideoView)rootView.findViewById(R.id.videoView2), rootView);
+        //TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+        //textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+        //videoSetting((VideoView)rootView.findViewById(R.id.videoView), rootView);
+        //videoSetting2((VideoView)rootView.findViewById(R.id.videoView2), rootView);
         return rootView;
     }
-
+/*
     public void videoSetting(final VideoView videoView, View rootView)
     {
         videoView.setVideoPath("http://restartallkill.nextus.co.kr/pokemongo/video/LinkinPark.mp4");
@@ -78,5 +78,5 @@ public class PointFragment extends Fragment {
             }
         });
     }
-
+*/
 }

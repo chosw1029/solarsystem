@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="defaultTextColor">#424242</color>
+
 
     <!-- NEW DISIGN -->
     <color name="color1">#404040</color>

@@ -114,7 +114,8 @@
                     android:textSize="10dp"
                     android:text="@{viewModel.commentCount}"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:onClick="@{viewModel::onClick}"/>
             </LinearLayout>
             <View
                 android:background="#CFD8DC"
@@ -142,6 +143,7 @@
                         android:textSize="15dp"
                         android:layout_marginRight="8dp"
                         android:textStyle="bold"
+                        android:textColor="@{viewModel.likeColor()}"
                         card_view:fontAwesomeIcon="fa_thumbs_o_up"
                         />
                     <TextView
@@ -150,7 +152,8 @@
                         android:textSize="13dp"
                         android:textStyle="bold"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:textColor="@{viewModel.likeColor()}"/>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/comment_button"

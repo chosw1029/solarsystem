@@ -26,7 +26,6 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.kakao.auth.ApiResponseCallback;
@@ -71,7 +70,8 @@ public class MainActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestMe();
-
+        String token = FirebaseInstanceId.getInstance().getToken();
+        Log.e("TOKEN", token);
         mainViewModel = new MainViewModel(this, this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setViewModel(mainViewModel);
@@ -132,13 +132,6 @@ public class MainActivity extends BaseActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-    }
-
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-        binding.getViewModel().loadBoardData();
     }
 
     @Override
@@ -345,8 +338,8 @@ public class MainActivity extends BaseActivity
                 GlobalApplication.getGlobalApplicationContext().setUserProfile(userProfile);
                 Glide.with(getApplicationContext()).load(userProfile.getProfileImagePath()).centerCrop().into(userImg);
                 ((TextView) binding.navView.getHeaderView(0).findViewById(R.id.user_name)).setText(GlobalApplication.getGlobalApplicationContext().getUserProfile().getNickname());
+                binding.getViewModel().loadBoardData();
                 addUserData();
-                //requestUpdateProfile(userProfile);
             }
 
             @Override
@@ -387,6 +380,10 @@ public class MainActivity extends BaseActivity
                 intent.putExtra("position", (int)view.getTag());
                 startActivity(intent);
         }
+    }
 
+    public void update()
+    {
+        binding.getViewModel().loadBoardData();
     }
 }

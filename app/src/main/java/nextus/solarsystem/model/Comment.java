@@ -15,6 +15,8 @@ public class Comment implements Parcelable{
     public String user_thumnail;
     public String comment_info;
     public String date;
+    public int comment_id;
+    public int board_id;
 
     public Comment(Parcel in)
     {
@@ -23,6 +25,8 @@ public class Comment implements Parcelable{
         this.user_thumnail = in.readString();
         this.comment_info = in.readString();
         this.date = in.readString();
+        this.comment_id = in.readInt();
+        this.board_id = in.readInt();
     }
 
     public static final Creator<Comment> CREATOR = new Creator<Comment>() {
@@ -47,5 +51,7 @@ public class Comment implements Parcelable{
         parcel.writeString(this.user_thumnail);
         parcel.writeString(this.comment_info);
         parcel.writeString(this.date);
+        parcel.writeInt(this.comment_id);
+        parcel.writeInt(this.board_id);
     }
 }

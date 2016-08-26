@@ -6,6 +6,8 @@ import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
@@ -14,6 +16,8 @@ import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+
+import java.util.Map;
 
 import nextus.solarsystem.R;
 import nextus.solarsystem.view.MainActivity;
@@ -44,6 +48,7 @@ public class MyFcmListenerService extends FirebaseMessagingService {
         // messages. For more see: https://firebase.google.com/docs/cloud-messaging/concept-options
         // [END_EXCLUDE]
 
+        /*
         // TODO(developer): Handle FCM messages here.
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
         Log.d(TAG, "From: " + remoteMessage.getFrom());
@@ -57,7 +62,14 @@ public class MyFcmListenerService extends FirebaseMessagingService {
         if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
             sendNotification(remoteMessage.getNotification().getBody());
-        }
+        }*/
+
+        String from = remoteMessage.getFrom();
+        Map<String, String> data = remoteMessage.getData();
+        String title = data.get("data1");
+        String msg = data.get("data2");
+
+        sendNotification(title, msg);
 
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
@@ -70,24 +82,36 @@ public class MyFcmListenerService extends FirebaseMessagingService {
      * @param messageBody FCM message body received.
      */
 
-    private void sendNotification(String messageBody) {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0  /*Request code */, intent,
-                PendingIntent.FLAG_ONE_SHOT);
+    private void sendNotification(String title, String text)
+    {
+        //큰 아이콘
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(),android.R.drawable.ic_menu_gallery);
 
-        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        //알림 사운드
+        Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+        //알림 클릭시 이동할 인텐트
+        //Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse("https://developers.google.com/cloud-messaging/"));
+        Intent intent= new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=nextus.solarsystem"));
+
+        //노티피케이션을 생성할때 매개변수는 PendingIntent이므로 Intent를 PendingIntent로 만들어주어야함.
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+
+        //노티피케이션 빌더 : 위에서 생성한 이미지나 텍스트, 사운드등을 설정해줍니다.
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.icon_arrow)
-                .setContentTitle("FCM Message")
-                .setContentText(messageBody)
+                .setSmallIcon(android.R.drawable.ic_menu_gallery)
+                .setLargeIcon(bitmap)
+                .setContentTitle(title)
+                .setContentText(text)
                 .setAutoCancel(true)
-                .setSound(defaultSoundUri)
+                .setSound(soundUri)
                 .setContentIntent(pendingIntent);
 
         NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify(0  /*ID of notification*/ , notificationBuilder.build());
+        //노티피케이션을 생성합니다.
+        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
+
 }

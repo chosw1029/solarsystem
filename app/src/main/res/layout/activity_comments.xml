@@ -11,6 +11,12 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <TextView
+            android:text="댓글이 없습니다."
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{viewModel.visibility}"/>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/comments_recycler"
             android:scrollbars="vertical"
@@ -24,6 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="40dp">
             <com.beardedhen.androidbootstrap.BootstrapEditText
+                android:id="@+id/comment_edit"
                 android:hint="댓글을 입력하세요..."
                 android:layout_weight="8"
                 android:layout_width="0dp"

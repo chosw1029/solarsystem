@@ -1,16 +1,17 @@
 package nextus.solarsystem.viewmodel;
 
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.DialogInterface;
 import android.databinding.BaseObservable;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableField;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
@@ -21,9 +22,9 @@ import java.util.Locale;
 import java.util.Objects;
 
 import nextus.solarsystem.GlobalApplication;
-import nextus.solarsystem.model.BoardItem;
 import nextus.solarsystem.model.Comment;
 import nextus.solarsystem.utils.ContentService;
+import nextus.solarsystem.view.CommentsActivity;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,12 +42,14 @@ public class CommentsViewModel extends BaseObservable implements ViewModel {
     final String TAG = "CommentsViewModel";
     public ObservableField<String> text = new ObservableField<>();
 
+    private final ObservableField<List<Comment>> commentList = new ObservableField<>();
+    private final ObservableField<Integer> board_id = new ObservableField<>();
     private Context context;
-    private List<Comment> commentList;
     private Comment comment;
     private Subscription subscription;
     private DataListener dataListener;
-    private int board_id = 0;
+    private boolean hasComment;
+
 
     public CommentsViewModel(Context context)
     {
@@ -55,10 +58,10 @@ public class CommentsViewModel extends BaseObservable implements ViewModel {
 
     public void setBoardID(int board_id)
     {
-        this.board_id = board_id;
+        this.board_id.set(board_id);
     }
 
-    public int getBoardID() { return this.board_id; }
+    public int getBoardID() { return board_id.get(); }
 
     public void setDataListener(DataListener dataListener)
     {
@@ -70,13 +73,14 @@ public class CommentsViewModel extends BaseObservable implements ViewModel {
         if (subscription != null && !subscription.isUnsubscribed()) subscription.unsubscribe();
 
         ContentService contentService = GlobalApplication.getGlobalApplicationContext().getContentService();
-        subscription = contentService.getCommentData(board_id)
+
+        subscription = contentService.getCommentData(board_id.get())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(GlobalApplication.getGlobalApplicationContext().defaultSubscribeScheduler())
                 .subscribe(new Subscriber<List<Comment>>(){
                     @Override
                     public void onCompleted(){
-                        if (dataListener != null) dataListener.onCommentItemChanged(commentList);
+                        if (dataListener != null) dataListener.onCommentItemChanged(commentList.get());
                     }
                     @Override
                     public void onError(Throwable error)
@@ -86,10 +90,18 @@ public class CommentsViewModel extends BaseObservable implements ViewModel {
                     @Override
                     public void onNext(List<Comment> commentList)
                     {
-                        Log.i(TAG, "Item loaded " + commentList.get(0).comment_info);
-                        CommentsViewModel.this.commentList = commentList;
+                        setCommentList(commentList);
+                        if( commentList.size() >0 ) hasComment = true;
                     }
                 });
+    }
+
+    public Comment getComment() { return this.comment; }
+
+    public void setCommentList(List<Comment> commentList)
+    {
+        this.commentList.set(commentList);
+        notifyChange();
     }
 
     public void setComment(Comment comment)
@@ -97,6 +109,8 @@ public class CommentsViewModel extends BaseObservable implements ViewModel {
         this.comment = comment;
         notifyChange();
     }
+
+    public int getCommentID() { return comment.comment_id; }
 
     public String getUserID()
     {
@@ -118,7 +132,6 @@ public class CommentsViewModel extends BaseObservable implements ViewModel {
         String date_string = comment.date;
         String date = "";
 
-        Log.e("DATE_STRING",date_string);
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.KOREA);
 
         Date current = new Date(System.currentTimeMillis());
@@ -188,12 +201,42 @@ public class CommentsViewModel extends BaseObservable implements ViewModel {
         public void afterTextChanged(Editable editable) {
             if (!Objects.equals(text.get(), editable.toString())) {
                 text.set(editable.toString());
-                //createContents.edit_text = editable.toString();
-                Log.e("Changed","-------------------------------------"+text.get());
 
             }
         }
     };
+
+    public void onClick(final View view)
+    {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("정말로 삭제하시겠습니까?")
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Call<ResponseBody> call = ContentService.Factory.create().deleteComment(""+comment.comment_id, ""+comment.board_id);
+
+                        call.enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                Snackbar.make(view, "삭제되었습니다.", Snackbar.LENGTH_SHORT).show();
+                                ((CommentsActivity)context).update();
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                            }
+                        });
+
+
+                    }
+                })
+                .setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                }).create().show();
+    }
 
     public String getImageUrl() {
         // The URL will usually come from a model (i.e Profile)
@@ -205,6 +248,11 @@ public class CommentsViewModel extends BaseObservable implements ViewModel {
         Glide.with(view.getContext())
                 .load(imageUrl)
                 .into(view);
+    }
+
+    public int getVisibility()
+    {
+        return hasComment ? View.INVISIBLE : View.VISIBLE;
     }
 
     @Override

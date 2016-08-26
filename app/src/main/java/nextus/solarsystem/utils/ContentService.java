@@ -28,8 +28,16 @@ import rx.Observable;
 
 public interface ContentService {
 
-    @GET("pokemongo/getBoardData.jsp")
-    Observable<BoardItem> getData();
+    @FormUrlEncoded
+    @POST("pokemongo/deleteComment.jsp")
+    Call<ResponseBody> deleteComment(
+            @Field("comment_id") String comment_id,
+            @Field("board_id") String board_id
+    );
+
+    @FormUrlEncoded
+    @POST("pokemongo/getBoardData.jsp")
+    Observable<BoardItem> getData(@Field("user_id") String user_id) ;
 
     @FormUrlEncoded
     @POST("pokemongo/getCommentData.jsp")
@@ -38,8 +46,9 @@ public interface ContentService {
     @FormUrlEncoded
     @POST("pokemongo/createLike.jsp")
     Call<ResponseBody> createLike(
-            @Field("board_id") String board_id,
-            @Field("user_id") String user_id);
+            @Field("user_id") String user_id,
+            @Field("board_id") String board_id
+            );
 
     @FormUrlEncoded
     @POST("pokemongo/addUser.jsp")

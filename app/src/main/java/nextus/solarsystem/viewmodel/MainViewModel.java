@@ -32,7 +32,7 @@ public class MainViewModel implements ViewModel {
     {
         this.context = context;
         this.dataListener = dataListener;
-        loadBoardData();
+        //loadBoardData();
     }
 
     public void setRefreshLayout(SwipeRefreshLayout refreshLayout)
@@ -51,7 +51,7 @@ public class MainViewModel implements ViewModel {
         if (subscription != null && !subscription.isUnsubscribed()) subscription.unsubscribe();
 
         ContentService contentService = GlobalApplication.getGlobalApplicationContext().getContentService();
-        subscription = contentService.getData()
+        subscription = contentService.getData(""+GlobalApplication.getGlobalApplicationContext().getUserProfile().getId())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(GlobalApplication.getGlobalApplicationContext().defaultSubscribeScheduler())
                 .subscribe(new Subscriber<BoardItem>(){

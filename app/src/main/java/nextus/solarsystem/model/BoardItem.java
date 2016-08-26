@@ -31,20 +31,7 @@ public class BoardItem {
     public List<List<String>> getBoard_img() {
         return board_img;
     }
-/*
-    public static class BoardImage
-    {
-        @SerializedName("board_img") public List<String> board_img;
 
-        public List<String> getBoard_img() {
-            return board_img;
-        }
-
-        public BoardImage()
-        {}
-
-    }
-*/
     public static class BoardData implements Parcelable
     {
         @SerializedName("board_id") public int board_id;
@@ -53,6 +40,8 @@ public class BoardItem {
         @SerializedName("user_name") public String user_name;
         @SerializedName("user_thumnail") public String user_thumnail;
         @SerializedName("date") public String date;
+        @SerializedName("isLike") public int isLike;
+
 
         @SerializedName("image_count") public int image_count;
         @SerializedName("view_count") public int view_count;
@@ -71,6 +60,7 @@ public class BoardItem {
             this.view_count = in.readInt();
             this.like_count = in.readInt();
             this.comment_count = in.readInt();
+            this.isLike = in.readInt();
         }
 
         @Override
@@ -90,6 +80,7 @@ public class BoardItem {
             parcel.writeInt(this.view_count);
             parcel.writeInt(this.like_count);
             parcel.writeInt(this.comment_count);
+            parcel.writeInt(this.isLike);
         }
 
         public final Creator<BoardData> CREATOR = new Creator<BoardData>() {

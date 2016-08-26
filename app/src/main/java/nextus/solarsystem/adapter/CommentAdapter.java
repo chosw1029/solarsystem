@@ -7,11 +7,13 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 
+import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.Collections;
 import java.util.List;
 
+import nextus.solarsystem.GlobalApplication;
 import nextus.solarsystem.R;
 import nextus.solarsystem.databinding.CommentListLayoutBinding;
 import nextus.solarsystem.model.Comment;
@@ -51,6 +53,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.AddedIma
     @Override
     public void onBindViewHolder(AddedImageViewHolder holder, int position) {
         holder.bindItem(commentList.get(position));
+
+        if( Integer.parseInt(commentList.get(position).user_id) == GlobalApplication.getGlobalApplicationContext().getUserProfile().getId() )
+            holder.binding.delete.setVisibility(View.VISIBLE);
 
         Log.e("Adapter", ""+position);
         //holder.binding.textView2.setText("SETSEsefsefesfsEFSEFEF");

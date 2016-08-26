@@ -26,10 +26,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import nextus.solarsystem.GlobalApplication;
 import nextus.solarsystem.R;
 import nextus.solarsystem.adapter.BoardItemRecyclerAdapter;
 import nextus.solarsystem.model.BoardItem;
+import nextus.solarsystem.utils.ContentService;
 import nextus.solarsystem.view.CommentsActivity;
+import nextus.solarsystem.view.MainActivity;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by chosw on 2016-08-11.
@@ -48,7 +55,6 @@ public class BoardItemViewModel extends BaseObservable implements ViewModel{
     private LinearLayoutManager layoutManager;
     private GridLayoutManager gridLayoutManager;
     private List<String> data;
-    private boolean like = false;
 
     public BoardItemViewModel(Context context, BoardItem.BoardData boardItem)
     {
@@ -107,29 +113,40 @@ public class BoardItemViewModel extends BaseObservable implements ViewModel{
 
     }
 
-    public void setlike(boolean isLike)
+    public void setLike()
     {
-        like = isLike;
-    }
+        Log.e(""+GlobalApplication.getGlobalApplicationContext().getUserProfile().getId(), ""+boardItem.board_id);
+        Call<ResponseBody> call = ContentService.Factory.create().createLike(""+GlobalApplication.getGlobalApplicationContext().getUserProfile().getId(), ""+boardItem.board_id);
 
-    public boolean getLike() { return like; }
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                ((MainActivity)context).update();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.e("LIKE", t.getMessage());
+            }
+        });
+    }
 
 
     public void onClick(View view) {
         switch (view.getId())
         {
             case R.id.like_button:
-                TextView textView = (TextView) view.findViewById(R.id.like_text);
-                setlike(!getLike());
-                if(getLike())
-                    textView.setTextColor(Color.BLUE);
-                else
-                    textView.setTextColor(Color.BLACK);
-                Snackbar.make(view, "좋아요 :"+boardItem.board_id, Snackbar.LENGTH_SHORT).show();
+                setLike();
                 break;
 
             case R.id.comment_button:
                 Intent intent = new Intent(context, CommentsActivity.class);
+                intent.putExtra("board_id", boardItem.board_id);
+                context.startActivity(intent);
+                break;
+
+            case R.id.comment_count:
+                intent = new Intent(context, CommentsActivity.class);
                 intent.putExtra("board_id", boardItem.board_id);
                 context.startActivity(intent);
                 break;
@@ -212,6 +229,8 @@ public class BoardItemViewModel extends BaseObservable implements ViewModel{
         String temp = "좋아요 "+boardItem.like_count;
         return  temp; }
     public String getUserName() { return boardItem.user_name; }
+
+    public int likeColor() { return boardItem.isLike == 1 ? Color.BLUE : Color.GRAY ;}
 
     @Override
     public void destroy() {

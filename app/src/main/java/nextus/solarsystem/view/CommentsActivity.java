@@ -2,9 +2,11 @@ package nextus.solarsystem.view;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -93,6 +95,7 @@ public class CommentsActivity extends Activity implements CommentsViewModel.Data
                                    Response<ResponseBody> response) {
                 Snackbar.make(view, "댓글을 작성하였습니다.", Snackbar.LENGTH_SHORT).show();
                 commentsViewModel.loadCommentData();
+                binding.commentEdit.setText("");
                 //finish();
             }
 
@@ -101,5 +104,17 @@ public class CommentsActivity extends Activity implements CommentsViewModel.Data
                 Log.e("Upload error:", t.getMessage());
             }
         });
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        binding.getViewModel().loadCommentData();
+    }
+
+    public void update()
+    {
+        binding.getViewModel().loadCommentData();
     }
 }
