@@ -1,28 +1,36 @@
 package nextus.solarsystem.view;
 
-import android.media.MediaPlayer;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.MediaController;
-import android.widget.TextView;
-import android.widget.VideoView;
+
+import java.util.List;
 
 import nextus.solarsystem.R;
+import nextus.solarsystem.adapter.UserDataAdapter;
+import nextus.solarsystem.databinding.FragmentPointBinding;
+import nextus.solarsystem.model.UserData;
+import nextus.solarsystem.utils.ContentService;
+import nextus.solarsystem.utils.DividerItemDecoration;
+import nextus.solarsystem.viewmodel.PointViewModel;
 
 /**
  * Created by chosw on 2016-08-25.
  */
 
-public class PointFragment extends Fragment {
+public class PointFragment extends Fragment implements PointViewModel.DataListener{
 
     /**
      * The fragment argument representing the section number for this
      * fragment.
      */
     private static final String ARG_SECTION_NUMBER = "section_number";
+    private FragmentPointBinding binding;
 
     public PointFragment() {
     }
@@ -31,7 +39,7 @@ public class PointFragment extends Fragment {
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public PointFragment newInstance(int sectionNumber) {
+    public static PointFragment newInstance(int sectionNumber) {
         PointFragment fragment = new PointFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
@@ -41,42 +49,26 @@ public class PointFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_point, container, false);
-        //TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-        //textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-        //videoSetting((VideoView)rootView.findViewById(R.id.videoView), rootView);
-        //videoSetting2((VideoView)rootView.findViewById(R.id.videoView2), rootView);
-        return rootView;
-    }
-/*
-    public void videoSetting(final VideoView videoView, View rootView)
-    {
-        videoView.setVideoPath("http://restartallkill.nextus.co.kr/pokemongo/video/LinkinPark.mp4");
-        final MediaController mediaController = new MediaController(getContext());
-        videoView.setMediaController(mediaController);
-        videoView.seekTo(1500);
-        mediaController.setAnchorView(rootView.findViewById(R.id.video_anchor));
-        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mediaPlayer) {
-                mediaController.hide();
-            }
-        });
+        binding = DataBindingUtil.inflate(LayoutInflater.from(container.getContext()), R.layout.fragment_point, null, false);
+        PointViewModel pointViewModel = new PointViewModel(container.getContext(), this);
+        binding.setViewModel(pointViewModel);
+
+        setRecyclerView(binding.userRecycler);
+
+        return binding.getRoot();
     }
 
-    public void videoSetting2(VideoView videoView, View rootView)
+    public void setRecyclerView(RecyclerView recyclerView)
     {
-        videoView.setVideoPath("http://restartallkill.nextus.co.kr/pokemongo/video/yourvoice.mp4");
-        final MediaController mediaController = new MediaController(getContext());
-        videoView.setMediaController(mediaController);
-        videoView.seekTo(1500);
-        mediaController.setAnchorView(rootView.findViewById(R.id.video_anchor));
-        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mediaPlayer) {
-                //mediaController.show(0);
-            }
-        });
+        UserDataAdapter adapter = new UserDataAdapter(getContext());
+        recyclerView.setAdapter(adapter);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), null));
     }
-*/
+
+    @Override
+    public void userDataChanged(List<UserData> userDataList) {
+        ((UserDataAdapter)binding.userRecycler.getAdapter()).setUserDataList(userDataList);
+    }
 }

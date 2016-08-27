@@ -40,15 +40,12 @@
             android:name="com.kakao.sdk.AppKey"
             android:value="a98aa83e8d6d86df423a7d58cd42cdb6" />
 
-        <service
-            android:name=".utils.MyFcmListenerService">
+        <service android:name=".utils.MyFcmListenerService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
-        <service
-            android:name=".utils.MyInstanceIDListenerService">
+        <service android:name=".utils.MyInstanceIDListenerService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
@@ -107,8 +104,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="nextus.solarsystem.view.MainActivity" />
         </activity>
-
-
+        <activity android:name=".view.PointInputActivity"></activity>
     </application>
 
 </manifest>

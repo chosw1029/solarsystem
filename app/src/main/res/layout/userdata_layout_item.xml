@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewModel"
+            type="nextus.solarsystem.viewmodel.PointViewModel"/>
+    </data>
+    <LinearLayout
+        android:id="@+id/placeCard"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <FrameLayout
+            android:layout_width="80dp"
+            android:layout_height="80dp">
+            <ImageView
+                android:id="@+id/user_thumnail"
+                android:layout_gravity="center"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                app:imageUrl="@{viewModel.imageUrl}"/>
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="64dp">
+            
+            <TextView
+                android:text="@{viewModel.userName}"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:textSize="13dp"
+                android:layout_width="match_parent"
+                android:layout_weight="1.5"
+                android:layout_height="0dp" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+                <TextView
+                    android:text="@{viewModel.userPhone}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:layout_marginLeft="8dp"
+                    android:text="@{viewModel.userBirthday}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+            
+            <TextView
+                android:text="@{viewModel.userPoint}"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="0dp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</layout>

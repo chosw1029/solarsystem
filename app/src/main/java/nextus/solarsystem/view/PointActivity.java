@@ -1,5 +1,6 @@
 package nextus.solarsystem.view;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.media.MediaPlayer;
 import android.support.design.widget.TabLayout;
@@ -56,8 +57,8 @@ public class PointActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                // Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                startActivity(new Intent(getApplicationContext(), PointInputActivity.class));
             }
         });
 
@@ -65,6 +66,7 @@ public class PointActivity extends AppCompatActivity {
 
     public void setUpToolBar(Toolbar toolBar)
     {
+        setTitle("포인트 정보");
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -181,24 +183,24 @@ public class PointActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            return PointFragment.newInstance(position + 1);
         }
 
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 1;
+            return 3;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "회원";
+                    return "회원정보";
                 case 1:
-                    return "기록";
+                    return "기 록";
                 case 2:
-                    return "로그";
+                    return "로 그";
             }
             return null;
         }

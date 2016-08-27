@@ -6,6 +6,7 @@ import java.util.Map;
 
 import nextus.solarsystem.model.BoardItem;
 import nextus.solarsystem.model.Comment;
+import nextus.solarsystem.model.UserData;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -34,6 +35,9 @@ public interface ContentService {
             @Field("comment_id") String comment_id,
             @Field("board_id") String board_id
     );
+
+    @GET ("pokemongo/getUserData.jsp")
+    Observable<List<UserData>> getUserData();
 
     @FormUrlEncoded
     @POST("pokemongo/getBoardData.jsp")
@@ -92,6 +96,4 @@ public interface ContentService {
             return retrofit.create(ContentService.class);
         }
     }
-
-
 }
