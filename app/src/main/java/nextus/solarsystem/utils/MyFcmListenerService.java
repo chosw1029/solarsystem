@@ -79,7 +79,7 @@ public class MyFcmListenerService extends FirebaseMessagingService {
     /**
      * Create and show a simple notification containing the received FCM message.
      *
-     * @param messageBody FCM message body received.
+     * @param //messageBody FCM message body received.
      */
 
     private void sendNotification(String title, String text)
@@ -89,6 +89,7 @@ public class MyFcmListenerService extends FirebaseMessagingService {
 
         //알림 사운드
         Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        //Uri temp = Uri.parse(getResources().getResourceName(R.raw.lg_sound));
 
         //알림 클릭시 이동할 인텐트
         //Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse("https://developers.google.com/cloud-messaging/"));

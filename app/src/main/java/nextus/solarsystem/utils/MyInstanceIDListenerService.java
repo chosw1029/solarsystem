@@ -51,6 +51,6 @@ public class MyInstanceIDListenerService extends FirebaseInstanceIdService {
      */
     private void sendRegistrationToServer(String token) {
         // TODO: Implement this method to send token to your app server.
-
+        Log.e("REFRESH_TOKEN", token);
     }
 }

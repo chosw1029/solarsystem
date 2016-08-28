@@ -1,38 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/activity_point_input"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="nextus.solarsystem.view.PointInputActivity">
-
-
-    <TextView
-        android:id="@+id/select_date"
-        android:text="날짜 선택"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewModel"
+            type="nextus.solarsystem.viewmodel.PointInputViewModel"/>
+    </data>
     <LinearLayout
-        android:orientation="horizontal"
+        android:id="@+id/activity_point_input"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="nextus.solarsystem.view.PointInputActivity">
         <TextView
-            android:hint="날짜를 선택해주세요."
-            android:layout_width="wrap_content"
+            android:text="날짜 선택"
+            android:textSize="13dp"
+            android:textStyle="bold"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
-        <ImageView
-            android:id="@+id/date_picker"
-            app:srcCompat="@drawable/ic_event_black_24dp"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/select_date"
+                android:hint="날짜를 선택해주세요."
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/date_picker"
+                android:layout_marginLeft="8dp"
+                app:srcCompat="@drawable/ic_event_black_24dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{viewModel::onClick}"/>
+        </LinearLayout>
+        <EditText
+            android:hint="해당 이벤트에 대한 간략한 설명"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+        <EditText
+            android:hint="금액 입력 ( 총액 )"
+            android:digits="0123456789"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="참석자 선택"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <com.beardedhen.androidbootstrap.BootstrapButton
+                android:id="@+id/attendant_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:onClick="@{viewModel::onClick}"
+                app:bootstrapText="추가"/>
+        </FrameLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/attendant_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
-</LinearLayout>
+</layout>
+

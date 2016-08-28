@@ -59,7 +59,10 @@ public interface ContentService {
     Call<ResponseBody> addUserData(
             @Field("userID") String userID,
             @Field("userNickName") String userNickName,
-            @Field("userThumnail") String userThumnail
+            @Field("userThumnail") String userThumnail,
+            @Field("user_token") String token,
+            @Field("user_birthday") String user_birthday,
+            @Field("user_phone") String user_phone
     );
 
     @FormUrlEncoded

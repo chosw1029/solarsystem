@@ -60,11 +60,13 @@ public class MainActivity extends BaseActivity
     MainViewModel mainViewModel;
     public View nav_header;
 
+    String token;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestMe();
-        String token = FirebaseInstanceId.getInstance().getToken();
+        token = FirebaseInstanceId.getInstance().getToken();
         Log.e("TOKEN", token);
         mainViewModel = new MainViewModel(this, this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
@@ -91,8 +93,10 @@ public class MainActivity extends BaseActivity
             String userID = ""+GlobalApplication.getGlobalApplicationContext().getUserProfile().getId();
             String userNickName = GlobalApplication.getGlobalApplicationContext().getUserProfile().getNickname();
             String userThumnail = GlobalApplication.getGlobalApplicationContext().getUserProfile().getThumbnailImagePath();
+            String user_birthday="";
+            String user_phone="";
 
-            Call<ResponseBody> call = ContentService.Factory.create().addUserData(userID, userNickName, userThumnail);
+            Call<ResponseBody> call = ContentService.Factory.create().addUserData(userID, userNickName, userThumnail, token, user_birthday, user_phone);
 
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
@@ -365,7 +369,6 @@ public class MainActivity extends BaseActivity
         {
             case R.id.comment_button:
                 Intent intent = new Intent(this, CommentsActivity.class);
-
                 //intent.putExtra("position", (int)view.getTag());
                 startActivity(intent);
                 break;
