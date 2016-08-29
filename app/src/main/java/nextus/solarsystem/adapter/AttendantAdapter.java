@@ -52,6 +52,7 @@ public class AttendantAdapter extends RecyclerView.Adapter<AttendantAdapter.User
     @Override
     public void onBindViewHolder(UserDataViewHolder holder, int position) {
         holder.bindItem(userDataList.get(position));
+        holder.binding.cancleButton.setTag(position);
 //        holder.binding.individualMoney.setText(holder.binding.getViewModel2().getIndividual_money());
     }
 
@@ -72,12 +73,10 @@ public class AttendantAdapter extends RecyclerView.Adapter<AttendantAdapter.User
         void bindItem(UserData userData) {
             if (binding.getViewModel() == null) {
                 binding.setViewModel(new PointViewModel(itemView.getContext(), null));
-                binding.setViewModel2(new PointInputViewModel(itemView.getContext(), null, null));
                 binding.getViewModel().setUserData(userData);
                 Log.e("SET_VIEWMODEL","");
             } else {
                  binding.getViewModel().setUserData(userData);
-                binding.getViewModel2().setUserData(userData);
             }
         }
     }

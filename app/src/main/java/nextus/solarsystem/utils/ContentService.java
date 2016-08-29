@@ -40,6 +40,12 @@ public interface ContentService {
     Observable<List<UserData>> getUserData();
 
     @FormUrlEncoded
+    @POST("pokemongo/updateToken.jsp")
+    Call<ResponseBody> updateToken(
+            @Field("user_id") String user_id,
+            @Field("token") String token) ;
+
+    @FormUrlEncoded
     @POST("pokemongo/getBoardData.jsp")
     Observable<BoardItem> getData(@Field("user_id") String user_id) ;
 

@@ -104,7 +104,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="nextus.solarsystem.view.MainActivity" />
         </activity>
-        <activity android:name=".view.PointInputActivity"></activity>
+        <activity android:name=".view.PointInputActivity"
+            android:parentActivityName=".view.PointActivity"/>
     </application>
 
 </manifest>

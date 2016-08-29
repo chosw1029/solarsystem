@@ -70,6 +70,10 @@ public class UserData extends BaseObservable implements Parcelable{
         return user_birthday;
     }
 
+    public String getUser_usedPoint() {
+        return user_usedPoint;
+    }
+
     @Override
     public int describeContents() {
         return 0;

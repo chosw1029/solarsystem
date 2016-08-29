@@ -68,6 +68,7 @@ public class MainActivity extends BaseActivity
         requestMe();
         token = FirebaseInstanceId.getInstance().getToken();
         Log.e("TOKEN", token);
+
         mainViewModel = new MainViewModel(this, this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setViewModel(mainViewModel);

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,7 @@ public class PointInputActivity extends AppCompatActivity implements PointInputV
         Intent intent = getIntent();
         ArrayList<UserData> user_list = intent.getParcelableArrayListExtra("userData");
 
+        setTitle("모임 기록");
         binding = DataBindingUtil.setContentView(this, R.layout.activity_point_input);
         pointInputViewModel = new PointInputViewModel(this, this, user_list);
         binding.setViewModel(pointInputViewModel);
@@ -49,4 +51,13 @@ public class PointInputActivity extends AppCompatActivity implements PointInputV
     public void attendantChanged(List<UserData> attendant_list) {
         ((AttendantAdapter)binding.attendantRecycler.getAdapter()).setUserDataList(attendant_list);
     }
+
+    @Override
+    public void remove(View view) {
+        int position = (int) view.getTag();
+        ((AttendantAdapter)binding.attendantRecycler.getAdapter()).getUserDataList().remove(position);
+        binding.getViewModel().setAttendant_list(((AttendantAdapter)binding.attendantRecycler.getAdapter()).getUserDataList());
+        binding.attendantRecycler.getAdapter().notifyDataSetChanged();
+    }
+
 }

@@ -12,14 +12,12 @@
     <LinearLayout
         android:id="@+id/placeCard"
         android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
         <FrameLayout
-            android:layout_width="64dp"
-            android:layout_height="64dp">
+            android:layout_width="52dp"
+            android:layout_height="52dp">
             <ImageView
                 android:id="@+id/user_thumnail"
                 android:layout_gravity="center"
@@ -30,12 +28,11 @@
 
         <LinearLayout
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
             android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="64dp">
-
+            android:layout_gravity="center_vertical"
+            android:layout_weight="4"
+            android:layout_width="0dp"
+            android:layout_height="48dp">
             <TextView
                 android:text="@{viewModel.userName}"
                 android:textColor="#000000"
@@ -44,7 +41,6 @@
                 android:layout_width="match_parent"
                 android:layout_weight="1.5"
                 android:layout_height="0dp" />
-
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
@@ -56,14 +52,24 @@
                     android:layout_height="match_parent" />
                 <TextView
                     android:id="@+id/individual_money"
-                    android:layout_marginLeft="8dp"
-                    android:textColor="@color/bootstrap_brand_warning"
-                    android:text="@{viewModel2.individual_money}"
+                    android:textColor="@color/colorAccent"
+                    android:text="@{viewModel.userUsedPoint}"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent" />
             </LinearLayout>
-
         </LinearLayout>
+        <FrameLayout
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/cancle_button"
+                android:onClick="remove"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_close_black_24dp"/>
+        </FrameLayout>
     </LinearLayout>
 
 </layout>

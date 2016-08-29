@@ -95,6 +95,7 @@ public class PointViewModel extends BaseObservable{
     public String getUserPoint() { return "포인트 : "+userData.getUser_point(); }
     public String getUserPhone() { return "번호 : "+userData.getUser_phone(); }
     public String getUserBirthday() { return "생일 : "+userData.getUser_birthday(); }
+    public String getUserUsedPoint() { return " - "+userData.getUser_usedPoint()+" = "+(Integer.parseInt(userData.getUser_point())-Integer.parseInt(userData.getUser_usedPoint()))+" (결과)"; }
 
 
     public String getImageUrl() {

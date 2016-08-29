@@ -12,7 +12,12 @@ import android.util.Log;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
+import nextus.solarsystem.GlobalApplication;
 import nextus.solarsystem.R;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by chosw on 2016-08-24.
@@ -51,6 +56,21 @@ public class MyInstanceIDListenerService extends FirebaseInstanceIdService {
      */
     private void sendRegistrationToServer(String token) {
         // TODO: Implement this method to send token to your app server.
-        Log.e("REFRESH_TOKEN", token);
+        if(GlobalApplication.getGlobalApplicationContext().getUserProfile()!=null)
+        {
+            Call<ResponseBody> call = ContentService.Factory.create().updateToken(""+GlobalApplication.getGlobalApplicationContext().getUserProfile().getId(), token);
+
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                }
+            });
+        }
     }
 }
