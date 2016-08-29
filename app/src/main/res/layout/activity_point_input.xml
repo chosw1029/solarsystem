@@ -49,8 +49,10 @@
             android:digits="0123456789"
             android:inputType="number"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:addTextChangedListener="@{viewModel.watcher}"/>
         <FrameLayout
+            android:layout_marginTop="24dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
@@ -65,10 +67,21 @@
                 android:onClick="@{viewModel::onClick}"
                 app:bootstrapText="추가"/>
         </FrameLayout>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/attendant_recycler"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="250dp"
+            android:layout_marginBottom="16dp"/>
+
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            app:bootstrapSize="xl"
+            app:bootstrapBrand="success"
+            app:bootstrapText="적용"/>
+
     </LinearLayout>
 </layout>
 

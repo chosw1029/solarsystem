@@ -69,7 +69,8 @@ public class BoardItemAdapter extends RecyclerView.Adapter<BoardItemAdapter.Boar
         {
             holder.binding.getViewModel().getAdapter().setImageList(Collections.<String>emptyList());
         }
-        Glide.with(this.context).load(boardData.getBoardData().get(position).user_thumnail).thumbnail(0.1f).centerCrop().into(holder.binding.userIcon);
+        if(boardData.getBoardData().get(position).user_thumnail != null)
+            Glide.with(this.context).load(boardData.getBoardData().get(position).user_thumnail).thumbnail(0.1f).centerCrop().into(holder.binding.userIcon);
     }
 
     @Override

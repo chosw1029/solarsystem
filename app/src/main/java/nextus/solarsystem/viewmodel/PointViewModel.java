@@ -1,18 +1,23 @@
 package nextus.solarsystem.viewmodel;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.BindingAdapter;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import nextus.solarsystem.GlobalApplication;
 import nextus.solarsystem.model.UserData;
 import nextus.solarsystem.utils.ContentService;
+import nextus.solarsystem.view.PointActivity;
+import nextus.solarsystem.view.PointInputActivity;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -30,6 +35,7 @@ public class PointViewModel extends BaseObservable{
     private DataListener dataListener;
     private List<UserData> userDataList;
     private UserData userData;
+    private ArrayList<UserData> temp;
 
 
     public PointViewModel(Context context, DataListener dataListener)
@@ -68,9 +74,17 @@ public class PointViewModel extends BaseObservable{
                     {
                        // Log.i(TAG, "Item loaded " + boardItems);
                         PointViewModel.this.userDataList = userDataList;
+                        temp = new ArrayList<UserData>(userDataList);
                     }
                 });
 
+    }
+
+    public void onClick(View view)
+    {
+        Intent intent = new Intent(context, PointInputActivity.class);
+        intent.putParcelableArrayListExtra("userData", temp);
+        context.startActivity(intent);
     }
 
 

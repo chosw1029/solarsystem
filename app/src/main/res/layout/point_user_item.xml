@@ -1,37 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <FrameLayout
-        android:layout_width="56dp"
-        android:layout_height="56dp">
-        <ImageView
-            android:id="@+id/user_thumnail"
-            android:src="@drawable/thumb_story"
-            android:layout_gravity="center"
-            android:layout_width="40dp"
-            android:layout_height="40dp" />
-    </FrameLayout>
-
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewModel"
+            type="nextus.solarsystem.viewmodel.PointViewModel"/>
+        <variable
+            name="viewModel2"
+            type="nextus.solarsystem.viewmodel.PointInputViewModel"/>
+    </data>
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_marginLeft="16dp"
+        android:id="@+id/placeCard"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="56dp">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/user_name"
-            android:text="조상욱"
+        <FrameLayout
+            android:layout_width="64dp"
+            android:layout_height="64dp">
+            <ImageView
+                android:id="@+id/user_thumnail"
+                android:layout_gravity="center"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                app:imageUrl="@{viewModel.imageUrl}"/>
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="28dp" />
+            android:layout_height="64dp">
 
-        <TextView
-            android:id="@+id/user_point"
-            android:text="포인트 : 50000"
-            android:layout_width="match_parent"
-            android:layout_height="28dp" />
+            <TextView
+                android:text="@{viewModel.userName}"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:textSize="13dp"
+                android:layout_width="match_parent"
+                android:layout_weight="1.5"
+                android:layout_height="0dp" />
 
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+                <TextView
+                    android:text="@{viewModel.userPoint}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:id="@+id/individual_money"
+                    android:layout_marginLeft="8dp"
+                    android:textColor="@color/bootstrap_brand_warning"
+                    android:text="@{viewModel2.individual_money}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+
+        </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+</layout>

@@ -26,6 +26,7 @@ import android.widget.VideoView;
 
 import nextus.solarsystem.R;
 import nextus.solarsystem.databinding.ActivityPointBinding;
+import nextus.solarsystem.viewmodel.PointViewModel;
 
 public class PointActivity extends AppCompatActivity {
 
@@ -44,23 +45,16 @@ public class PointActivity extends AppCompatActivity {
      */
     private ViewPager mViewPager;
     private ActivityPointBinding binding;
+    private PointViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_point);
-
+        viewModel = new PointViewModel(this, null);
+        binding.setViewModel(viewModel);
         setUpToolBar(binding.toolbar);
         setUpViewPagerTap(binding.container, binding.tabs);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                startActivity(new Intent(getApplicationContext(), PointInputActivity.class));
-            }
-        });
 
     }
 
