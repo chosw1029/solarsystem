@@ -20,6 +20,7 @@
             android:layout_height="52dp">
             <ImageView
                 android:id="@+id/user_thumnail"
+                android:src="@drawable/thumb_story"
                 android:layout_gravity="center"
                 android:layout_width="48dp"
                 android:layout_height="48dp"

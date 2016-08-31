@@ -177,7 +177,11 @@ public class PointActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return PointFragment.newInstance(position + 1);
+            if(position == 0)
+                return PointFragment.newInstance(position + 1);
+            else
+                return EventFragment.newInstance(position + 1);
+
         }
 
         @Override

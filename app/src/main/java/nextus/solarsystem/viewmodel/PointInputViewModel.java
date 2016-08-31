@@ -3,7 +3,6 @@ package nextus.solarsystem.viewmodel;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.databinding.BaseObservable;
-import android.databinding.Bindable;
 import android.databinding.ObservableField;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
@@ -11,12 +10,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
-
-import com.android.databinding.library.baseAdapters.BR;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -111,21 +106,14 @@ public class PointInputViewModel extends BaseObservable {
 
     public void showMultiChoiceDialog()
     {
-        String[] colors = new String[]{
-                userDataArrayList.get(0).user_nickname,
-                userDataArrayList.get(1).user_nickname,
-                userDataArrayList.get(2).user_nickname,
-                userDataArrayList.get(3).user_nickname,
-                userDataArrayList.get(4).user_nickname,
-        };
+        String[] colors = new String[userDataArrayList.size()];
+        final boolean[] checkedColors = new boolean[userDataArrayList.size()];
 
-        final boolean[] checkedColors = new boolean[]{
-                false, // 정상문
-                false, // 신현수
-                false, // 조상욱
-                false, // 박진태
-                false // 이해성
-        };
+        for(int i=0; i<userDataArrayList.size(); i++)
+        {
+            colors[i] = userDataArrayList.get(i).user_nickname;
+            checkedColors[i] = false;
+        }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
 

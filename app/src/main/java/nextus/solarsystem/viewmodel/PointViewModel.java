@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nextus.solarsystem.GlobalApplication;
+import nextus.solarsystem.R;
 import nextus.solarsystem.model.UserData;
 import nextus.solarsystem.utils.ContentService;
 import nextus.solarsystem.view.PointActivity;
@@ -105,9 +106,15 @@ public class PointViewModel extends BaseObservable{
 
     @BindingAdapter({"bind:imageUrl"})
     public static void loadImage(ImageView view, String imageUrl) {
-        Glide.with(view.getContext())
-                .load(imageUrl)
-                .into(view);
+        if( imageUrl.contentEquals("") )
+            view.setImageResource(R.drawable.thumb_story);
+        else
+        {
+            Glide.with(view.getContext())
+                    .load(imageUrl)
+                    .into(view);
+        }
+
     }
 
     public interface DataListener
